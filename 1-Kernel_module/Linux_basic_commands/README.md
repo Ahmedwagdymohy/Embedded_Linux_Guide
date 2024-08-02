@@ -10,4 +10,21 @@
 ![alt text](image-1.png)
 
 ## systemctl
-![alt text](image-2.png)
+![alt text](image-3.png)
+
+## snap
+![alt text](image-4.png)
+
+## grep
+![alt text](image-5.png)
+
+## Fine 
+![alt text](image-6.png)
+
+## Error Handling
+![alt text](image-7.png)
+
+## Git & Github
+![alt text](image-8.png)
+
+![alt text](image-9.png)
