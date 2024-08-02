@@ -64,9 +64,9 @@ echo ${VAR_NAME}
 Example of an environment variable:
 
 ```bash
-export environment_variable="Bash Shell Scripting"
+export environment_var="Bash"
 
-echo ${environment_variable}
+echo ${environment_var}
 ```
 
 ## Arithmetic Operations
@@ -111,26 +111,32 @@ fi
 
 if [[ -z $KERNEL_TYPE ]]; then
     echo "Kernel Type is empty"
+    #-z Flag: This flag checks if the length of the string is zero 
 fi
 
 if [[ -n $KERNEL_TYPE ]]; then
     echo "Kernel Type is not empty"
+    #-n Flag: This flag checks if the length of the string is non-zero.
 fi
 ```
 
 ### Files and Directories
-
 Check if a file or directory exists and perform operations accordingly.
 
 ```bash
 if [[ -s $PWD/test.txt ]]
 then
+    #-s Flag: Checks if a file exists and is not empty.
     echo "File exists and not empty"
 else
     if [[ -e $PWD/test.txt ]]
     then
+        #-e Flag: Checks if a file or directory exists.But it can be empty
         echo "File exists and empty"
+
+
     else
+        #-d Flag: Checks if a directory exists.
         echo "File does not exist"
     fi 
 fi 
@@ -141,8 +147,36 @@ then
 fi
 ```
 
-## Outputs
+#### Another Example :
+```bash
+# Make sure path ends with /
+for directory in '/home/wagdy/Desktop/embedded/'*; do
+    if [[ -d "${directory}" && ! -L "${directory}" ]]; then
+        #the -d flag Checks if ${directory} exists and is a directory
+        #-L "${directory}": Checks if ${directory} exists and is a symbolic link.
+        # and we make sure that we don't have a symbolic link 
 
+        echo "${directory}"
+    fi
+done
+```
+
+
+
+## Magic Variables
+The magic variables inside the functions are used to print some important information about the fun.
+```bash
+    echo "$#" #print the number of arguments
+    echo "$@" #print all the arguments
+    echo "$*" #print all the arguments
+    echo "$0" #print the name of the script
+    echo "$?" #print the exit status of the last command
+    echo "$$" #print the process id of the current script
+    #tha hash carries integer datatype
+```
+
+
+## Outputs
 The script demonstrates two types of outputs:
 
 1. **Exit Status:** Indicates the success or failure of the last command (`0`-`255`).
@@ -155,61 +189,21 @@ echo $$
 
 ## Source Command
 
-The `source` command is used to run the script in the current shell process, which allows any variables or functions defined in the script to be available in the current shell.
+When you use the `source` command, the commands in the script are executed within the current shell session. This means that any variables set, functions defined, or environment changes made by the script will persist in the current shell after the script has finished running.
 
 ```bash
 source script_name.sh
 ```
 
+
+
+
+
+
+
+
+
 ---
-
-Feel free to modify or add any sections based on additional details or requirements you may have!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Iterate over directory to print the directories inside this directory:
-```bash
-# Make sure path ends with /
-for directory in '/home/wagdy/Desktop/embedded/'*; do
-    if [[ -d "${directory}" && ! -L "${directory}" ]]; then
-        echo "${directory}"
-    fi
-done
-```
-
-# Iterate over the directory to print the files inside it:
-The `-f `flag checks if the files exists and the `-L `check if the files doesn't have any symblic links
-```bash
-#check if the files exists inside a directory
-for file in '/home/wagdy/Desktop/embedded/'*; do
-    if [[ -f "${file}" && ! -L "${file}" ]]; then
-        echo "${file}"
-    fi
-done
-```
 
 # Use case on IF-ELSE
 > make a small program that takes two number inputs and pick the operation from the user and apply it
@@ -235,8 +229,8 @@ fi
 echo "THE sum is $((FIRSTNUM + SECONDNUM))"
 ```
 
-
-# Function in BASH
+---------------------------------------------------------------------------------------
+# Functions in BASH
 > Any variable whether it is written inside a function or outside a function by default is a global variable
 > To make it Local use the `local` before the varaible
 
@@ -251,29 +245,18 @@ print "HHHHHHI"
 ```
 The output will be like :
 ```bash
-HHHHHHHHHHHHHHHHHi
+HHHHHHI
 ```
 
-## Magic variables inside functions
-The magic variables inside the functions are used to print some important information about the fun.
-```bash
-    echo "$#" #print the number of arguments
-    echo "$@" #print all the arguments
-    echo "$*" #print all the arguments
-    echo "$0" #print the name of the script
-    echo "$?" #print the exit status of the last command
-    echo "$$" #print the process id of the current script
-    #tha hash carries integer datatype
-```
+
 
 
 # Example of how to reviece a return value from a funciton
 > [!NOTE]  
 > the fucntion only Returns the last echo , If you want to receive multiple values you can pass it to the echo
+> Echo here doesn't print in the console output but it acts as a return for the function 
 
-> [!NOTE]  
->  Echo here doesn't print in the console output but it acts as a return for the function 
-\
+
 ```bash
 function sum(){
     declare -i RESULT=$(($1 + $2))
