@@ -10,6 +10,8 @@
    - [Files and Directories](#files-and-directories)
 5. [Outputs](#outputs)
 6. [Source Command](#source-command)
+7. [IF-Else Use Case](#Use-case-on-IF-ELSE)
+8. [Functions in Bash](#Functions-in-BASH)
 
 ## Inputs
 
@@ -187,7 +189,7 @@ echo "Exit Status: $?"
 echo $$
 ```
 
-## Source Command
+## Source-Command
 
 When you use the `source` command, the commands in the script are executed within the current shell session. This means that any variables set, functions defined, or environment changes made by the script will persist in the current shell after the script has finished running.
 
@@ -205,7 +207,7 @@ source script_name.sh
 
 ---
 
-# Use case on IF-ELSE
+## Use-case-on-IF-ELSE
 > make a small program that takes two number inputs and pick the operation from the user and apply it
 ```bash
 #Use Case 
@@ -230,7 +232,7 @@ echo "THE sum is $((FIRSTNUM + SECONDNUM))"
 ```
 
 ---------------------------------------------------------------------------------------
-# Functions in BASH
+## Functions-in-BASH
 > Any variable whether it is written inside a function or outside a function by default is a global variable
 > To make it Local use the `local` before the varaible
 
@@ -251,7 +253,7 @@ HHHHHHI
 
 
 
-# Example of how to reviece a return value from a funciton
+## Example of how to reviece a return value from a funciton
 > [!NOTE]  
 > the fucntion only Returns the last echo , If you want to receive multiple values you can pass it to the echo
 > Echo here doesn't print in the console output but it acts as a return for the function 
