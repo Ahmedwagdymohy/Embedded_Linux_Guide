@@ -1,17 +1,38 @@
 ## Table of Contents
-1. [Inputs](#inputs)
-2. [Variables](#variables)
+1. [Basic-bash-script](#basic-bash-script)
+   -    [Inputs](#inputs)
+   - [Variables](#variables)
    - [Variable Operations](#variable-operations)
    - [Variable Types](#variable-types)
-3. [Arithmetic Operations](#arithmetic-operations)
-4. [Condition Checking](#condition-checking)
+   -    [Arithmetic Operations](#arithmetic-operations)
+   - [Condition Checking](#condition-checking)
    - [Numbers](#numbers)
    - [Strings](#strings)
    - [Files and Directories](#files-and-directories)
-5. [Outputs](#outputs)
-6. [Source Command](#source-command)
-7. [IF-Else Use Case](#Use-case-on-IF-ELSE)
-8. [Functions in Bash](#Functions-in-BASH)
+   - [Outputs](#outputs)
+   - [Source Command](#source-command)
+   - [IF-Else Use Case](#Use-case-on-IF-ELSE)
+   - [Functions in Bash](#Functions-in-BASH)
+   - [Advanced-Bash-script](#Advanced-Bash-script)
+
+
+
+
+2. [Advanced-Bash-script](#advanced-bash-script)
+   - [Variable Operations](#variable-operations-2)
+   - [String Operations](#string-operations)
+   - [Flow Control](#flow-control)
+   - [File Processing](#file-processing)
+
+
+
+
+
+
+
+
+
+
 
 ## Inputs
 
@@ -269,3 +290,192 @@ function sum(){
 RESULT=$(sum 5 6)
 echo "${RESULT}"
 ```
+
+
+---
+
+# ☀️  Advanced-Bash-script ☀️
+
+
+
+
+## 🗽 Bash Script: Advanced Variable and String Operations
+
+This script demonstrates various advanced operations in Bash, including variable operations, string manipulations, flow control, and file processing. It serves as a reference for different syntax and usage patterns in Bash scripting.
+
+
+
+
+## Variable-Operations-2
+
+### Default Value Assignment ( Will be Used in Yocto )
+
+1. **`${VARIABLE:-default}`**  
+   If `VARIABLE` is unset or empty, use `default`. assignin' Value 3adi gdan  
+   Example:  
+   ```bash
+   declare NAME=""
+   echo "Name: ${NAME:-WAGDY}" # Outputs "WAGDY" since NAME is empty
+   ```
+
+2. **`${VARIABLE:=default}`**  
+   If `VARIABLE` is unset, set it to `default`.  
+   Example:  
+   ```bash
+   echo "Name: ${NAME:=WAGDY}" # Sets NAME to "WAGDY" if it wasn't defined
+   ```
+
+3. **`${VARIABLE:?default}`**  
+   If `VARIABLE` is unset, raise an error with `default` message.  
+   Example:  
+   ```bash
+   echo "Name: ${NAME2:?WAGDY}" # Raises an error if NAME2 is not declared
+   ```
+
+## 🗽 String Operations
+
+### Substring Extraction
+
+1. **`${string:position:length}`**  
+   Extract a substring from `string` starting at `position` for `length` characters. 
+   Cutting the substring and removing it.
+   <br> 
+
+
+   Example:  
+   ```bash
+   declare str="Hello World"
+   echo "String: ${str:3}" # Outputs "lo World"
+   echo "String: ${str: -3}" # Outputs "rld"
+   ```
+<br> <br> 
+### Pattern Matching
+
+1. **`${string%substring}`**  
+   Remove the shortest match from the end.
+   <br>   
+   Example:  
+   ```bash
+   declare filename="file.txt"
+   declare basic_name=${filename%.*}
+   echo "Basic Name: $basic_name" # Outputs "file"
+   ```
+   <br> <br> 
+   
+
+2. **`${string##substring}`**  
+   Remove the longest match from the beginning.  
+   Example:  
+   <br> 
+   ```bash
+   declare extension=${filename##*.}
+   echo "Extension: $extension" # Outputs "txt"
+   ```
+<br> <br> 
+
+3. **Search Pattern Inside String**  
+   Check if a string contains a specific substring.  
+   Example:  
+   ```bash
+   declare string="Linux is fun, Hello World"
+   if [[ "${string}" == *World* ]]; then
+       echo "Found" # Outputs "Found"
+   fi
+   ```
+<br> <br> 
+
+### Trimming Spaces
+
+1. **Trim Left and Right Spaces**  
+   Example:  
+   ```bash
+   declare str2="  Hello World  "
+   trimmed=$(echo -e "${str2}" | sed -e 's/^[[:space:]]*//' | sed -e 's/[[:space:]]*$//')
+   echo "Trimmed: $trimmed" # Outputs "Hello World"
+   ```
+
+## 🗽 Flow Control
+
+### Loops
+
+1. **While Loop**  
+   Example:  
+   ```bash
+   declare -i a=0
+   while (( $a<5 )); do
+       echo "${a}"
+       ((a++))
+   done
+   ```
+
+2. **For Loop**  
+   Example:  
+   ```bash
+   for i in {1..5}; do
+       echo "${i}"
+   done
+   ```
+
+### Switch Case
+
+1. **Case Statement**  
+   Example:  
+   ```bash
+   declare os=$1
+   case "${os}" in
+       linux) echo "case: ${os}" ;;
+       windows) echo "windows" ;;
+       *) echo "Undefined Operating System" ;;
+   esac
+   ```
+
+### Select Statement
+
+1. **Create User Menu**  
+   Example:  
+   ```bash
+   select os in "Linux" "Windows"; do
+        echo ${os}
+   done
+   ```
+
+## 🗽 File Processing
+
+### Reading Files
+
+1. **Read File Line by Line**  
+   Example:  
+   ```bash
+   cat $PWD/test.txt | while read line; do
+       echo "${line}"
+   done
+
+   while IFS= read -r line; do
+       echo "$line"
+   done < test.txt
+   ```
+
+2. **Conditional Line Processing**  
+   Example:  
+   ```bash
+   cat $PWD/test.txt | while read line; do
+       if [[ "${line}" == "linux" ]]; then
+           echo "Linux Kernel"
+       fi
+   done
+   ```
+
+### Writing to Files
+
+1. **Write with Redirection**  
+   Example:  
+   ```bash
+   echo "operating-system:GNU/Linux" > ./file.txt
+   ```
+
+2. **Append to File**  
+   Example:  
+   ```bash
+   echo "Appended Data" >> ./file.txt
+   ```
+
