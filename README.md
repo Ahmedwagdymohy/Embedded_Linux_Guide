@@ -1,7 +1,7 @@
-# 🐧 🗿 Course Outline:🐧 🗿
+# 🐧 🗿 Course Outline:
 The Ultimate Source to be an Embedded software engineer.
 
-## KERNEL MODULE
+## 🗿KERNEL MODULE
 **Duration:** 1**Month** [[1-Kernel_Module]]
 
 ### Contents:
@@ -27,7 +27,7 @@ The Ultimate Source to be an Embedded software engineer.
 
 ---
 
-## EMBEDDED LINUX MODULE
+## 🗿EMBEDDED LINUX MODULE
 **Duration:** **+2 Weeks** [[2-EMBEDDED_LINUX_MODULE]]
 
 ### Contents:
@@ -39,7 +39,7 @@ The Ultimate Source to be an Embedded software engineer.
 
 ---
 
-## YOCTO MODULE
+## 🗿YOCTO MODULE
 **Duration:** **1 Month** [[3-YOCTO_MODULE]]
 
 ### Contents:
@@ -50,7 +50,7 @@ The Ultimate Source to be an Embedded software engineer.
 
 ---
 
-## C++ MODULE
+## 🗿C++ MODULE
 **Duration:** +1.5 Months [[4-Cpp_MODULE]]
 
 ### Contents:
@@ -72,7 +72,7 @@ The Ultimate Source to be an Embedded software engineer.
 
 ---
 
-## DEVICE DRIVER MODULE
+## 🗿DEVICE DRIVER MODULE
 **Duration:** +1 Month [[5-DEVICE_DRIVER_MODULE]]
 
 ### Contents:
