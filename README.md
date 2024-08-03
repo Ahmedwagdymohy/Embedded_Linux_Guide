@@ -1,6 +1,8 @@
 # Course Outline:
+The Ultimate Source to be an Embedded software engineer.
+
 ## KERNEL MODULE
-**Duration:** +**Month** [[1-Kernel_Module]]
+**Duration:** 1**Month** [[1-Kernel_Module]]
 
 ### Contents:
 -  Understand Architecture of Linux Kernel
