@@ -1,4 +1,4 @@
-# Course Outline:
+🐧 🗿 # Course Outline:🐧 🗿
 The Ultimate Source to be an Embedded software engineer.
 
 ## KERNEL MODULE
