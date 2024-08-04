@@ -331,6 +331,7 @@ This script demonstrates various advanced operations in Bash, including variable
    ```bash
    echo "Name: ${NAME2:?WAGDY}" # Raises an error if NAME2 is not declared
    ```
+<br><br>
 
 ## 🗽 String Operations
 
@@ -393,6 +394,9 @@ This script demonstrates various advanced operations in Bash, including variable
    trimmed=$(echo -e "${str2}" | sed -e 's/^[[:space:]]*//' | sed -e 's/[[:space:]]*$//')
    echo "Trimmed: $trimmed" # Outputs "Hello World"
    ```
+<br>
+
+<br>
 
 ## 🗽 Flow Control
 
@@ -446,6 +450,7 @@ Iterate over numbers
         echo ${os}
    done
    ```
+<br><br>
 
 ## 🗽 File Processing
 
