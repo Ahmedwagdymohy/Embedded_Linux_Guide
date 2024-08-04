@@ -1,4 +1,4 @@
-## Table of Contents
+## 🗽 Table of Contents
 1. [Basic-bash-script](#basic-bash-script)
    -    [Inputs](#inputs)
    - [Variables](#variables)
@@ -34,7 +34,7 @@
 
 
 
-## Inputs
+## 🐧 Inputs
 
 ### Positional Parameters
 
@@ -53,7 +53,7 @@ read $NAME
 echo $NAME
 ```
 
-## Variables
+## 🐧Variables
 
 ### Variable Operations
 
@@ -92,7 +92,7 @@ export environment_var="Bash"
 echo ${environment_var}
 ```
 
-## Arithmetic Operations
+## 🐧 Arithmetic Operations
 
 Bash supports basic arithmetic operations. You can use the `declare -i` flag to define integer variables.
 
@@ -107,7 +107,7 @@ declare -i result=$(($num1-$num2))
 echo $result
 ```
 
-## Condition Checking
+## 🐧 Condition Checking
 
 ### Numbers
 
@@ -186,7 +186,7 @@ done
 
 
 
-## Magic Variables
+## 🐧 Magic Variables
 The magic variables inside the functions are used to print some important information about the fun.
 ```bash
     echo "$#" #print the number of arguments
@@ -210,7 +210,7 @@ echo "Exit Status: $?"
 echo $$
 ```
 
-## Source-Command
+## 🐧 Source-Command
 
 When you use the `source` command, the commands in the script are executed within the current shell session. This means that any variables set, functions defined, or environment changes made by the script will persist in the current shell after the script has finished running.
 
@@ -228,7 +228,7 @@ source script_name.sh
 
 ---
 
-## Use-case-on-IF-ELSE
+##  🐧 Use-case-on-IF-ELSE
 > make a small program that takes two number inputs and pick the operation from the user and apply it
 ```bash
 #Use Case 
@@ -253,7 +253,7 @@ echo "THE sum is $((FIRSTNUM + SECONDNUM))"
 ```
 
 ---------------------------------------------------------------------------------------
-## Functions-in-BASH
+## 🐧 Functions-in-BASH
 > Any variable whether it is written inside a function or outside a function by default is a global variable
 > To make it Local use the `local` before the varaible
 
@@ -274,7 +274,7 @@ HHHHHHI
 
 
 
-## Example of how to reviece a return value from a funciton
+## 🐧 Example of how to reviece a return value from a funciton
 > [!NOTE]  
 > the fucntion only Returns the last echo , If you want to receive multiple values you can pass it to the echo
 > Echo here doesn't print in the console output but it acts as a return for the function 
@@ -408,13 +408,21 @@ This script demonstrates various advanced operations in Bash, including variable
    done
    ```
 
-2. **For Loop**  
+2. **For Loop** 
+Iterate over numbers
    Example:  
    ```bash
    for i in {1..5}; do
        echo "${i}"
    done
    ```
+-   Iterate over files 
+    Example:  
+    ```bash
+    for file in $PWD/*; do
+         echo "${file}"
+    done
+    ```    
 
 ### Switch Case
 
@@ -458,7 +466,9 @@ This script demonstrates various advanced operations in Bash, including variable
 2. **Conditional Line Processing**  
    Example:  
    ```bash
-   cat $PWD/test.txt | while read line; do
+   cat $PWD/test.txt | while read line; 
+   # The read command reads the file line by line
+   do
        if [[ "${line}" == "linux" ]]; then
            echo "Linux Kernel"
        fi
