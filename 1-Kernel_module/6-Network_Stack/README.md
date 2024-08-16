@@ -97,5 +97,49 @@ For systems without GUI tools like rasperryPi ,We Use `tcpdump` To capture netwo
 ![alt text](image-9.png)
 1. Identify Interface cards using `ifconfig -a`.
 2. Connect Wirless/Wired to router (Sending Hidden Frame to the router to get the IP address) Using protocol called `DHCP -> Dynamic Host Configuration protocol`.
-3. Assign IP address to the interface using `ifconfig <interface> <ip>` (Static IP).
-4. Make sure that the machine is connected
+    - **DHCP**:
+        - **Client:** Requests an IP address from the DHCP server.
+        - **Server:** Assigns an IP address to the client.
+        - **Router:** Manages the DHCP server.
+    - To see the DHCPclient file go to ```/etc/dhcp/dhclient.conf```   
+3. We have to configurations of the IP address:
+    - **Static IP:** Manually assign an IP address to the interface *Which we are going to use*.
+        - **Advantages:**
+            - The IP address is always the same.
+            - Easier to connect to the machine.
+            - The assignation of it depends on the init process of the system you are using , in Out case we are using `systemd`. for more info -> [ ClickHere ](https://docs.google.com/document/d/1LoyayCG_EtRMXx-MLnoz4udPM-HQbzcM1bn-JBzJ5Ns/edit?usp=sharing)
+    - **Dynamic IP:** Automatically assign an IP address using DHCP.
+
+4. Assign static IP address.
+5. Make sure that the machine is connected
+
+
+---
+### Inside the System-D :
+- Network manager :
+    - To show all the connections you did in the machine , use `nmcli connection show`
+    - To show more details about the connections and from where this command get the data go to `etc/NeworkManager/system-connections/` *(law 3ayz tshof details aktar)*
+    - To change the IP to be static use `nmcli connection modify <name of the connection> ipv4.method manual ipv4.addresses "IP address"` We use ipv4.method manual to make the IP static cuz it's dynamic by default ,also *Don't forget to restart the service using systemctl restart Networkmanager*. 
+
+### Debugging Commands:
+- **`ping`:** Check if the Other IP is working successfully and can recieve and send  .
+- **`ip addr show`:** Displays the IP address of the network interfaces.
+- **`ip route show`:** Displays the routing table.
+- **`traceroute`:** Displays the path packets take to reach a destination.
+- **`netstat`:** Displays network connections, routing tables, and interface statistics.
+- **`ss`:** Displays socket statistics.
+- **`arp`:** Displays the ARP cache.
+- **`dig`:** Queries DNS servers.
+- **`host`:** Resolves hostnames to IP addresses.
+- **`nslookup`:** Queries DNS servers.
+- **`ifconfig`:** Displays network interfaces and their configurations.
+- **`iwconfig`:** Displays wireless network interfaces and their configurations.
+- **`iwlist`:** Displays wireless network interfaces and their configurations.
+- **`iw`:** Displays wireless network interfaces and their configurations.
+- **`ethtool`:** Displays NIC settings.
+
+
+
+
+
+
