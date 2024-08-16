@@ -1,3 +1,4 @@
+# 📌📌 Basic Network Stack
 ## What's Network?
 Network is the way how two devices are communicating, The data sent between the two devices are called `packets`
 
@@ -10,7 +11,8 @@ It's the way that the two devices are using to communicate with each others, we 
 - **Inter-Process Communication:** Communication between two processes on the same machine.
 
 
-
+## Communication Types:
+![alt text](image-8.png)
 
 ## TCP/IP Layers and Protocols
 1. **Application Layer**
@@ -45,7 +47,7 @@ Communication Protocol installed over that layer to be communicated with:
 
 
 
-## Useful Commands and Tools
+## ❗ Useful Commands and Tools
 
 1. **`ifconfig -a`:** Displays all network interfaces and their MAC addresses.
     
@@ -85,13 +87,15 @@ We are going to use the wireshark to analyse the data, The layers in the wiresha
 The `ping` command uses the `ICMP` protocol to check if two machines can communicate. It sends an echo request and listens for an echo reply, verifying connectivity.
 
 ## Capturing and Analyzing Traffic
-For systems without GUI tools like Wireshark, `tcpdump` can capture network traffic. The captured data can be transferred to another system for analysis with Wireshark.
+For systems without GUI tools like rasperryPi ,We Use `tcpdump` To capture network traffic and save it to file called pcap. The captured data can be transferred to another system for analysis with Wireshark.
 
+---
 
-> [!TIP]
-> The wireshark is a gui tool we can't use it with the embedded systems like rasperryPi, so we need to use the tcpdump tool to capture the traffic and save it to file called pcap, then take the pcap file and analyse it on the wireshark
-
-> we will use tcpdump tool to capture the traffic and save it to file called pcap, then take the pcap file and analyse it on the wireshark
-
-
-
+# 📌📌 Advanced Network Stack
+> In this part ana h3ml network so8aira a apply fiha el concepts ely 3arfinha 
+### ⚙️ Create a simple Network
+![alt text](image-9.png)
+1. Identify Interface cards using `ifconfig -a`.
+2. Connect Wirless/Wired to router (Sending Hidden Frame to the router to get the IP address) Using protocol called `DHCP -> Dynamic Host Configuration protocol`.
+3. Assign IP address to the interface using `ifconfig <interface> <ip>` (Static IP).
+4. Make sure that the machine is connected
