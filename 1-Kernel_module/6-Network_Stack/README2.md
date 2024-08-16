@@ -7,6 +7,8 @@ Here's an updated version of the README file with the provided information, form
 ## What's a Network?
 A network is a system that enables communication between two devices. The data exchanged between these devices is called `packets`.
 
+![alt text](image-5.png)
+
 ## Communication Protocol
 A communication protocol defines the rules and conventions for data exchange between devices. In this context, we'll focus on `SOME/IP`, a protocol commonly used in the automotive industry.
 

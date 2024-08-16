@@ -1,6 +1,8 @@
 ## What's Network?
 Network is the way how two devices are communicating, The data sent between the two devices are called `packets`
 
+![alt text](image-5.png)
+
 
 ## Communication protocol:
 It's the way that the two devices are using to communicate with each others, we will use `SomeIp` it's a protocol used in the automotive industry.
@@ -31,23 +33,15 @@ Communication Protocol installed over that layer to be communicated with:
 
 
 ## The Ethernet Frame stages:
+1. When a two Network cards are communicating they send Ethernet frames to each ohters, The receiver one start By comparing the Destination address with it's own MacAdress,If matched it start analysing the data and take the subFrame to another stage.
+
 ![alt text](image-1.png)
 <br>
-1. When a two Network cards are communicating they send Ethernet frames to each ohters, The receiver one start By comparing the Destination address with it's own MacAdress,If matched it start analysing the data and take the subFrame to another stage
+
 
 2. Then the subFrame goes to the network stack Layes as shown in fig
 
--   ![](image-2.png).
-
-3. In the Network We compare with the IP and port
-
-
-4. Transport layer will deal with the sockets and ports
-
-
-
-
-
+![alt text](image-7.png)
 
 
 
@@ -65,7 +59,7 @@ Communication Protocol installed over that layer to be communicated with:
         - **Up:** The NIC is ready to transmit data.
         - **Down:** The NIC is disabled and cannot transmit data.
         - ![alt text](image-4.png)
-        - The `enp4s0` ,`lo` ,`wlp0s20f3` all of them are network interfaces cards.
+        - The `enp4s0` ,`lo` (Virtual NIC) ,`wlp0s20f3` all of them are network interfaces cards.
 
     -   The `mtu` (Maximum Transmission Unit) defines the largest packet size that can be transmitted over the NIC.
 
