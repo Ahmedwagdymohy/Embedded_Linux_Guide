@@ -65,7 +65,7 @@ Communication Protocol installed over that layer to be communicated with:
 
     -   The `mtu` (Maximum Transmission Unit) defines the largest packet size that can be transmitted over the NIC.
 
-2. **`ethtool`:** Displays current NIC settings.
+2. **`ethtool`:** Network interface setting and display properties.
 3. **`ping`:** Verifies connectivity between two IP addresses, utilizing the `ICMP` protocol.
 4. **`tcpdump`:** Captures network traffic and saves it for analysis.
 
@@ -117,29 +117,60 @@ For systems without GUI tools like rasperryPi ,We Use `tcpdump` To capture netwo
 ---
 ### Inside the System-D :
 - Network manager :
-    - To show all the connections you did in the machine , use `nmcli connection show`
-    - To show more details about the connections and from where this command get the data go to `etc/NeworkManager/system-connections/` *(law 3ayz tshof details aktar)*
+    - To show all the connections you did in the machine , use `nmcli connection show`.
+
+    - To show more details about the connections and from where this command get the data go to `etc/NeworkManager/system-connections/` *(law 3ayz tshof details aktar)*.
+
     - To change the IP to be static use `nmcli connection modify <name of the connection> ipv4.method manual ipv4.addresses "IP address"` We use ipv4.method manual to make the IP static cuz it's dynamic by default ,also *Don't forget to restart the service using systemctl restart Networkmanager*. 
 
 ### Debugging Commands:
-- **`ping`:** Check if the Other IP is working successfully and can recieve and send  .
+- **`ping`:** Check if the Other IP is working successfully and can recieve and send.
+
 - **`ip addr show`:** Displays the IP address of the network interfaces.
+
 - **`ip route show`:** Displays the routing table.
-- **`traceroute`:** Displays the path packets take to reach a destination.
+
 - **`netstat`:** Displays network connections, routing tables, and interface statistics.
+
 - **`ss`:** Displays socket statistics.
-- **`arp`:** Displays the ARP cache.
-- **`dig`:** Queries DNS servers.
+
 - **`host`:** Resolves hostnames to IP addresses.
+
 - **`nslookup`:** Queries DNS servers.
+
 - **`ifconfig`:** Displays network interfaces and their configurations.
-- **`iwconfig`:** Displays wireless network interfaces and their configurations.
-- **`iwlist`:** Displays wireless network interfaces and their configurations.
-- **`iw`:** Displays wireless network interfaces and their configurations.
+
 - **`ethtool`:** Displays NIC settings.
 
 
 
 
 
+## Sockets:
 
+**What are Sockets?**
+
+A socket is essentially a unique identifier for a communication It consists of an IP address and a port number.
+
+* **IP Address:** This identifies the specific device or machine on the network.
+* **Port Number:** This differentiate services or applications running on the same machine.
+
+![alt text](image-11.png)
+
+
+## **Differentiating Sockets**
+
+Consider the following scenario: Two devices on the same network are both using port 49888. How does the server know which device to send data to?
+
+The answer lies in the sockets. Even though the port numbers are the same, the IP addresses are different. This means each device has a unique socket, allowing the server to distinguish between them and send data to the correct destination.
+
+![alt text](image-10.png)
+
+
+## **Sockets Commands**
+
+`ss -tuln` : Displays all listening ports on the machine.
+
+`netstat --listening --program --numeric --tcp --udp --extend` : Displays all listening ports and the programs using them.
+
+`sudo tcpdump -i wlp3s0 -w <file>.pcap src 192.168.5.102` : Captures network traffic on 192.168.5.102 and saves it to a pcap file to analyze it using Wireshark.
