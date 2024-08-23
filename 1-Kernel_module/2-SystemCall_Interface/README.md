@@ -1,13 +1,13 @@
 # 🧙🏻‍♂️ System Call Interface 🧙🏻 :
 
 
-### WorkFlow:
+### 🧠 WorkFlow:
 
 ![alt text](image-1.png)
 ---
 
 
-### Commands :
+### 🔧 Commands :
 We have to main commands :
 1. `strace`: i**s a powerful Linux command-line tool that intercepts and records system calls made by a process. It provides detailed information about the system calls**.
    - use case: 
