@@ -1,5 +1,6 @@
 # 🐧 🗿 Course Outline:
-The Ultimate Source to be an Embedded software engineer.
+Welcome to The Ultimate Source to be an Embedded software engineer.
+> Written by AhmedWagdy under supervision of HazemKhaled
 
 ## 🗿KERNEL MODULE
 **Duration:** 1**Month** [[1-Kernel_Module]]
