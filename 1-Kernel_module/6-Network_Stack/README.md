@@ -78,6 +78,7 @@ Communication Protocol installed over that layer to be communicated with:
 
 ## Wireshark
 We are going to use the wireshark to analyse the data, The layers in the wireshark are ordered from the physical layer up to the application layer
+
 ![alt text](image-3.png)
 
 
@@ -174,3 +175,63 @@ The answer lies in the sockets. Even though the port numbers are the same, the I
 `netstat --listening --program --numeric --tcp --udp --extend` : Displays all listening ports and the programs using them.
 
 `sudo tcpdump -i wlp3s0 -w <file>.pcap src 192.168.5.102` : Captures network traffic on 192.168.5.102 and saves it to a pcap file to analyze it using Wireshark.
+
+
+
+
+## Socket Programming with example:
+#### the procedure of the socket programming to make Server-client app
+NOTES To be edited:
+When we create a socket using the function `socket` it return an integer this integer represents the **file descriptor(Fd)** of the socket, and we use this file descriptor to communicate with the socket.
+
+
+
+
+
+**`read` Function:**
+
+- **Purpose:** Reads data from a socket.
+- **Syntax:**
+   ```c++
+   ssize_t read(int sockfd, void *buf, size_t len);
+   ```
+- **Parameters:**
+   - `sockfd`: The file descriptor of the socket.
+   - `buf`: A pointer to the buffer where the received data will be stored.
+   - `len`: The maximum number of bytes to read.
+- **Return Value:**
+   - Returns the number of bytes actually read, or -1 if an error occurs.
+
+**`write` Function:**
+
+- **Purpose:** Writes data to a socket.
+- **Syntax:**
+   ```c++
+   ssize_t write(int sockfd, const void *buf, size_t len);
+   ```
+- **Parameters:**
+   - `sockfd`: The file descriptor of the socket.
+   - `buf`: A pointer to the buffer containing the data to be written.
+   - `len`: The number of bytes to write.
+- **Return Value:**
+   - Returns the number of bytes actually written, or -1 if an error occurs.
+
+**`send` Function:**
+
+- **Purpose:** Sends data to a socket, potentially with flags to control the behavior.
+- **Syntax:**
+   ```c++
+   ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+   ```
+- **Parameters:**
+   - `sockfd`: The file descriptor of the socket.
+   - `buf`: A pointer to the buffer containing the data to be sent.
+   - `len`: The number of bytes to send.
+   - `flags`: Optional flags to control the behavior of the send operation. Some common flags include:
+     - `MSG_DONTWAIT`: Non-blocking operation.
+     - `MSG_NOSIGNAL`: Suppress SIGPIPE signal on write errors.
+     - `MSG_EOR`: Indicates end-of-record.
+- **Return Value:**
+   - Returns the number of bytes actually sent, or -1 if an error occurs.
+
+> The server reads data from the client using read, processes it, and sends it back using write. The client sends a message to the server using send.
