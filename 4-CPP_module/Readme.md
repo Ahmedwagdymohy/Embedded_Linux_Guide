@@ -73,6 +73,10 @@ In modern c++ We have String from STL.
 
 
 
+
+
+
+
 ### 🦖**Containers** :
 **Flowchart of Adaptive Containers and Unordered Containers**
 
@@ -84,12 +88,46 @@ In modern c++ We have String from STL.
 
 
 
+
+
+
+
+
+
+
+
+
 ### 🦖**operator overloading**:
 
 **Operator overloading in C++ allows you to redefine the behavior of operators (like +, -, ==, etc.) for user-defined types (e.g., classes or structs). By overloading operators, you can make instances of your custom classes work intuitively with C++ operators.**
 
+```bash
+class Complex {
+  private: int real,
+  imag;
 
-> Put the code of it!!!!!!!!!!!
+  public: Complex(int r = 0, int i = 0) {
+      real = r;
+      imag = i;
+  }
+
+  // This is automatically called when '+' is used with
+  // between two Complex objects
+  Complex operator + (Complex
+      const & obj) {
+      Complex res;
+      res.real = real + obj.real;
+      res.imag = imag + obj.imag;
+      return res;
+  }
+  void print() {
+      cout << real << " + i" << imag << '\n';
+  }
+};
+```
+
+
+**As we can see the operator overloading done with the retrun type of Complex , why? cuz we create a class object called `res` and we return it**
 
 
 
@@ -100,6 +138,13 @@ In modern c++ We have String from STL.
 
 
 
+
+
+
+
+
+
+---
 ### 🔗 Dynamic linking vs static linking:
 
 - **Dynamic Linking**: In dynamic linking, the linking of the program is done at run-time. The linking is done when the program is loaded into memory. 
@@ -245,7 +290,7 @@ This should print `The result is: 8`.
 These examples demonstrate how to create and use both dynamic and static libraries in C++. If you have any specific questions or need further details, feel free to ask!
 
 
-
+---
 
 ## How to add a Header file to the system ? 
 
