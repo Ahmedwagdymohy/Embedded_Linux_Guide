@@ -28,7 +28,11 @@ In C++, modifiers are keywords that modify the behavior of fundamental data type
 
 - **🤔 constexpr**: This keyword is used to declare variables that are evaluated at compile time. It can also be used to define functions that are evaluated at compile time, The key point of constexpr is that it can be executed at compile time. Your code may have been executed before you run it. That’s the main point.
 
----
+<br>
+<br>
+<br>
+<br>
+
 ### 🦖 Coding Guidelines:
 1. **Always initialize variables when you declare them**.
     - for the string , it's intialized by default to empty string.
@@ -41,7 +45,16 @@ In C++, modifiers are keywords that modify the behavior of fundamental data type
 
 5. **Every case in the switch statement should have a break statement**.
 
----
+5. **In function if the input argument is read only and won't change . make it const**.
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+
 
 ### 🦖Arrays:
 In modern c++ we don't use the C arrays , we include the array instead , this gives us more features and safety.
@@ -75,7 +88,10 @@ In modern c++ We have String from STL.
 
 
 
-
+<br>
+<br>
+<br>
+<br>
 
 ### 🦖**Containers** :
 **Flowchart of Adaptive Containers and Unordered Containers**
@@ -91,7 +107,10 @@ In modern c++ We have String from STL.
 
 
 
-
+<br>
+<br>
+<br>
+<br>
 
 
 
@@ -125,13 +144,47 @@ class Complex {
   }
 };
 ```
-
-
 **As we can see the operator overloading done with the retrun type of Complex , why? cuz we create a class object called `res` and we return it**
 
 
 
 
+### Another example(Hazem Lec) :
+
+```cpp
+enum class option{
+    FRIES = 1,
+    BURGER=2 ,
+    EXIT =3
+};
+
+option DEFAULT = option::FRIES;
+
+
+
+
+istream& operator>> (istream& input_stream, option &result){
+    int int_option;
+    input_stream >> int_option;
+    result = static_cast<option>(int_option);
+}
+
+
+
+int main(){
+
+    option Ahmed = DEFAULT;
+    cin>> Ahmed;}
+
+```
+
+fel opertator overloading:
+**Bsta3ml istream law ha5od 7agat mn el user swa2 in/outputs , f ana hna ba5od el input mn el istream using the >> operator then I put it in a variable called `int_option` then I cast this variable to be a enum datatype , so the user can enter a number it will be correspoding to the enum value.**
+
+<br>
+<br>
+<br>
+<br>
 
 
 
@@ -144,7 +197,72 @@ class Complex {
 
 
 
----
+
+
+### 🦖**Function overloading**:
+**is Creating more than one function with the same name but with different parameters.**
+```cpp
+void print(int i) {
+    cout << "Printing int: " << i << endl;
+}
+void print(double  f) {
+    cout << "Printing float: " << f << endl;
+}
+void print(char* c) {
+    cout << "Printing character: " << c << endl;
+}
+int main() {
+    print(5);
+    print(500.263);
+    print("Hello C++");
+    return 0;
+}
+```
+### 🦖**Function Default parameters**:
+**If a function is called without passing a value for a default parameter, the default value is used.**
+> This way is better that the function overloading.
+
+```cpp
+void print(string name = "ahmed"){
+cout<<name;
+}
+int main(){
+    print(); //prints ahmed
+    print("Ali"); //prints Ali
+}
+```
+
+<br>
+<br>
+<br>
+<br>
+
+
+### 🦖**Classes**:
+```cpp
+class Myclass{
+    public:
+        int name;
+        void print(){
+            cout<<name;
+        }
+}
+int main(){
+    Myclass obj;
+    obj.name = 5;
+    obj.print();
+}
+```
+
+
+
+
+
+
+<br>
+<br>
+<br>
+<br>
 ### 🔗 Dynamic linking vs static linking:
 
 - **Dynamic Linking**: In dynamic linking, the linking of the program is done at run-time. The linking is done when the program is loaded into memory. 
@@ -173,7 +291,7 @@ int add(int a, int b) {
 
 On Linux, you can compile the `mathlib.cpp` file into a shared library (`.so` file) using the following commands:
 
-```bash
+```cpp
 g++ -fPIC -c mathlib.cpp   # Compile the source file to an object file with Position Independent Code (PIC)
 g++ -shared -o libmathlib.so mathlib.o  # Create the shared library
 ```
@@ -199,7 +317,7 @@ int main() {
 
 #### Step 4: Compile and Link the Program with the Dynamic Library
 
-```bash
+```cpp
 g++ -o main main.cpp -L. -lmathlib
 ```
 
@@ -210,7 +328,7 @@ g++ -o main main.cpp -L. -lmathlib
 
 Before running the program, ensure that the system knows where to find the shared library. You can do this by setting the `LD_LIBRARY_PATH` environment variable:
 
-```bash
+```cpp
 export LD_LIBRARY_PATH=.
 ./main
 ```
