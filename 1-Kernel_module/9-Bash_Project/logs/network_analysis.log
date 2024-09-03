@@ -1,49 +1,16 @@
-2024-09-03 21:05:15 - Starting network traffic analysis...
-2024-09-03 21:05:15 - Step 1: Checking if the pcap file exists...
-2024-09-03 21:05:15 - Pcap file found: /home/wagdy/Desktop/Embedded_linux_guide/Embedded_Linux_Guide/1-Kernel_module/9-Bash_Project/wagdyNetwork.pcap
-2024-09-03 21:05:15 - Step 2: Extracting total number of packets...
-./analyze_traffic.sh: line 33: tshark: command not found
-2024-09-03 21:05:15 - Total Packets: 0
-2024-09-03 21:05:15 - Step 3: Extracting HTTP packets...
-./analyze_traffic.sh: line 43: tshark: command not found
-2024-09-03 21:05:15 - HTTP Packets: 0
-2024-09-03 21:05:15 - Step 4: Extracting HTTPS/TLS packets...
-./analyze_traffic.sh: line 53: tshark: command not found
-2024-09-03 21:05:15 - HTTPS/TLS Packets: 0
-2024-09-03 21:05:15 - Step 5: Extracting top 5 source IP addresses...
-./analyze_traffic.sh: line 63: tshark: command not found
-2024-09-03 21:05:15 - Top 5 Source IP Addresses extracted
-2024-09-03 21:05:15 - Step 6: Extracting top 5 destination IP addresses...
-./analyze_traffic.sh: line 73: tshark: command not found
-2024-09-03 21:05:15 - Top 5 Destination IP Addresses extracted
------ Network Traffic Analysis Report -----
-1. Total Packets: 0
-2. Protocols:
-   - HTTP: 0 packets
-   - HTTPS/TLS: 0 packets
-
-3. Top 5 Source IP Addresses:
-
-
-4. Top 5 Destination IP Addresses:
-
-
------ End of Report -----
-2024-09-03 21:05:15 - Analysis summary report generated and displayed.
-2024-09-03 21:05:15 - Network traffic analysis completed.
-2024-09-03 21:06:14 - Starting network traffic analysis...
-2024-09-03 21:06:14 - Step 1: Checking if the pcap file exists...
-2024-09-03 21:06:14 - Pcap file found: /home/wagdy/Desktop/Embedded_linux_guide/Embedded_Linux_Guide/1-Kernel_module/9-Bash_Project/wagdyNetwork.pcap
-2024-09-03 21:06:14 - Step 2: Extracting total number of packets...
-2024-09-03 21:06:15 - Total Packets: 2517
-2024-09-03 21:06:15 - Step 3: Extracting HTTP packets...
-2024-09-03 21:06:15 - HTTP Packets: 0
-2024-09-03 21:06:15 - Step 4: Extracting HTTPS/TLS packets...
-2024-09-03 21:06:15 - HTTPS/TLS Packets: 62
-2024-09-03 21:06:15 - Step 5: Extracting top 5 source IP addresses...
-2024-09-03 21:06:16 - Top 5 Source IP Addresses extracted
-2024-09-03 21:06:16 - Step 6: Extracting top 5 destination IP addresses...
-2024-09-03 21:06:16 - Top 5 Destination IP Addresses extracted
+2024-09-03 21:08:28 - Starting network traffic analysis...
+2024-09-03 21:08:28 - Step 1: Checking if the pcap file exists...
+2024-09-03 21:08:28 - Pcap file found: /home/wagdy/Desktop/Embedded_linux_guide/Embedded_Linux_Guide/1-Kernel_module/9-Bash_Project/wagdyNetwork.pcap
+2024-09-03 21:08:28 - Step 2: Extracting total number of packets...
+2024-09-03 21:08:29 - Total Packets: 2517
+2024-09-03 21:08:29 - Step 3: Extracting HTTP packets...
+2024-09-03 21:08:29 - HTTP Packets: 0
+2024-09-03 21:08:29 - Step 4: Extracting HTTPS/TLS packets...
+2024-09-03 21:08:30 - HTTPS/TLS Packets: 62
+2024-09-03 21:08:30 - Step 5: Extracting top 5 source IP addresses...
+2024-09-03 21:08:30 - Top 5 Source IP Addresses extracted
+2024-09-03 21:08:30 - Step 6: Extracting top 5 destination IP addresses...
+2024-09-03 21:08:31 - Top 5 Destination IP Addresses extracted
 ----- Network Traffic Analysis Report -----
 1. Total Packets: 2517
 2. Protocols:
@@ -65,5 +32,5 @@
      18 34.225.16.234
 
 ----- End of Report -----
-2024-09-03 21:06:16 - Analysis summary report generated and displayed.
-2024-09-03 21:06:16 - Network traffic analysis completed.
+2024-09-03 21:08:31 - Analysis summary report generated and displayed.
+2024-09-03 21:08:31 - Network traffic analysis completed.
