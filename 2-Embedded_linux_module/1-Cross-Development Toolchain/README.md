@@ -64,20 +64,3 @@ it's the rootfile system of the target device , it's the directory that contains
 
 
 <br>
-
-## Booting sequence of the embedded linux system
-1. bios               : is the first thing that runs when the device is powered on , it's also usde to make hardware check like if there's a                       RAM problem the device will make beeeb sound and stop booting   
-2. firts bootloader   : is used to make hardware cheks on the device 
-3. second bootloader  : used for safety checks if th efist bootloader is corrupted and also used for debugging 
-4. Third bootloader   : this one is optional in the devices not in all , but in our case it's called u-boot and for windows it's called GRUB
-                        the third bootloader gives me the capability to choose the mode I'm booting to like the safe-mode or the normal mode recovery mode, can also choose which kernel to start for example if we have a dual booth on the device and we want to choose which device to boot from the third bootloadr will give us this capability.
-
-4. kernel             : 
-5. initramfs
-6. root file system
-
-
-
-
-
-the bootloader is a bare metal thing that's written in C and assembly , it's target dependant , it's the thing which calles the kernel 
