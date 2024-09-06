@@ -10,9 +10,6 @@ The primary objective of this network task is to analyze network traffic using W
 - Generate a summary report based on the analysis.
 
 
-
-
-
 ## 3. Prerequisites
 - Wireshark installed.
 - Permission to capture network traffic.
