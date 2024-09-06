@@ -9,6 +9,10 @@ The primary objective of this network task is to analyze network traffic using W
 - Extract relevant information like total packets, protocols, and top source/destination IP addresses.
 - Generate a summary report based on the analysis.
 
+
+
+
+
 ## 3. Prerequisites
 - Wireshark installed.
 - Permission to capture network traffic.
