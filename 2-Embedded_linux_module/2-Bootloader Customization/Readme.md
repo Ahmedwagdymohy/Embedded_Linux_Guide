@@ -60,3 +60,29 @@ the bootloader is a bare metal thing that's written in C and assembly , it's tar
         # Thiswillgenerate a u-boot binfile.
         ```
 **Now we are done with the bootloader we will take this binfile and it on the Raspi4 board , and the next step is to create A kernel and we will make the bootloader boot it**
+
+
+
+
+
+
+
+
+## Addional notes From Reference:
+### What does the booloader do ?
+1. **The bootloader does two main things, First is to pass a pointer ro struct containg the HW configs , Sec to pass another pointer to the kernel command line**
+2. **Once the kernel has begun ,the bootloader is no longer needed and it's not used anymore.**
+3. **Another susidiary job is to provide maintenance mode for updating boot configurations of looding new boot images ,or dunning diagnostics**
+4. **It also load the kernel from the flash memory to `DRAM`**
+
+
+
+
+# Tha phases of booting Sequence:
+1. ### **ROM Code**
+    - **First there's a code stored inside the ROM by the Vendor and cannot be changed**
+    - **It Initialize the HW and clocks and memory and some basic perihperal**
+    - **The ROM code determines from where the bootloader will be loaded , it can be from the SD card or the EMMC or the USB or the Ethernet**
+    - **The ROM load the SPL (secondary program loader) to the SRAM , once it done it trasfer the control to it**
+
+![alt text](Assets/image2.png)
