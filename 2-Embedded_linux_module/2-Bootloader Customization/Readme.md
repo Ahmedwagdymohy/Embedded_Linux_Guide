@@ -59,7 +59,7 @@ the bootloader is a bare metal thing that's written in C and assembly , it's tar
         make -j8 -s 
         # Thiswillgenerate a u-boot binfile.
         ```
-**Now we are done with the bootloader we will take this binfile and it on the Raspi4 board , and the next step is to create A kernel and we will make the bootloader boot it**
+**Now we are done with the bootloader we will take this bin file and it on the Raspi4 board , and the next step is to create A kernel and we will make the bootloader boot it**
 
 
 
@@ -91,10 +91,20 @@ the bootloader is a bare metal thing that's written in C and assembly , it's tar
 
 
 2. ### Phase-2 **Secondary program loader**
-    - IT
+    - **The SPL is a small program that is used to initialize the DRAM and the DRAM controller , it also copies the TPL(tertiary program loader) in to DRAM**
+    - **After TPL becomes in the DRAM the SPL can make a jumb to that area**
+    - **It doesn't allow any interaction with the user , but it shows the the progress of the booting and show some info like the version**
+
+![alt text](image-9.png)
 
 
 
+3. ### Phase-3 **Tertiary Program Loader**
+    - **At this stage we are running a full bootloader such as U-boot, So here the user has a simple CLI that makes a maintainance tasks**
+    - **It also loads the Kernel to the DRAM then the TPL**
+    - **Once the Kernel is loaded the bootloader disappear from memory**
+
+![alt text](image-10.png)
 
 
 
