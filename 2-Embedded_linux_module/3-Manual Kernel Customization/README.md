@@ -3,8 +3,8 @@
 we are going to follow the following steps to make the kernel:
 1. **Download the kernel source code**      [From here](https://kernel.org/)
 2. **Configure the kernel**
-    - We have some expressions (menuConfig - KConfig - KBuild ) We are going to discuss that later
-    - After changing in the menuConfig By the Kconfig it will generate the `.config` file
+    - We have some KeyWords (menuConfig - KConfig - KBuild ) We are going to discuss that later
+    - We gonna use a tool called menuConfig which will read the files named `Kconfig` then it will generate the `.config` file
     - the `.Config` file will go to the KBuild then it will generate a configured Kernel
 
 3. **Build the kernel**
@@ -18,5 +18,8 @@ we are going to follow the following steps to make the kernel:
 4. **Booting the kernel**
 
 ![alt text](Assets/image.png)
+
+
+
 
  

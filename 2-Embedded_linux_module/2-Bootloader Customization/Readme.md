@@ -1,5 +1,5 @@
-# Booting sequence of the embedded linux systems:
-> Interview Questions
+# Booting Sequence of the Embedded Linux systems:
+> Interview Questions (From Lecture):
 1. What's the first thing that runs when the device is powered on?
 2. What's the first bootloader?
 3. What's the second bootloader?
@@ -7,7 +7,7 @@
 5. What's SOC? -> it's the system on chip , it's the processor and the peripherals on the same chip, it can be used for multiple purposes like the raspberry pi.
 
 
-> Answer:
+> Answers (From Lecture):
 1. **Bios**               : is the first thing that runs when the device is powered on , it's also usde to make hardware check like if there's a RAM problem the device will make beeeb sound and stop booting   
 2. **firts bootloader**   : is used to make hardware cheks on the device 
 3. **second bootloader(SPL)**  : used for safety checks if th efist bootloader is corrupted and also used for debugging, it also init the DRAM(Dynamic ram) & Dram controller , then copies the U-boot(which's the third bootloader) to the RAM and then jumps to the U-boot code.
@@ -68,7 +68,7 @@ the bootloader is a bare metal thing that's written in C and assembly , it's tar
 
 
 
-## Addional notes From Reference:
+# Addional notes From Reference:
 ### What does the booloader do ?
 1. **The bootloader does two main things, First is to pass a pointer ro struct containg the HW configs , Sec to pass another pointer to the kernel command line**
 2. **Once the kernel has begun ,the bootloader is no longer needed and it's not used anymore.**
@@ -79,10 +79,106 @@ the bootloader is a bare metal thing that's written in C and assembly , it's tar
 
 
 # Tha phases of booting Sequence:
-1. ### **ROM Code**
+1. ### Phase-1 **ROM Code**
     - **First there's a code stored inside the ROM by the Vendor and cannot be changed**
     - **It Initialize the HW and clocks and memory and some basic perihperal**
     - **The ROM code determines from where the bootloader will be loaded , it can be from the SD card or the EMMC or the USB or the Ethernet**
     - **The ROM load the SPL (secondary program loader) to the SRAM , once it done it trasfer the control to it**
 
 ![alt text](Assets/image2.png)
+
+
+
+
+2. ### Phase-2 **Secondary program loader**
+    - IT
+
+
+
+
+
+
+
+
+
+<br>
+<br>
+
+---
+
+
+
+# Device Tree:
+### What's the Device tree?
+- **The device tree is just a way to describe the HW components of computer system, It's a static data not an executable code**
+
+![alt text](image.png)
+
+
+### Where is the device tree located?
+- **The Device tree is stored in the bootloader's firmware and then it's passed from the bootloader to the kernel.**
+- **Or it can be stored in the kernel image itself.**
+
+![alt text](image-1.png)
+
+
+### How the Device tree code is written ?
+ - **It consits of nodes and under each node there are properties**
+ - **The nodes are the HW components like the CPU, the memory, the peripherals**
+ - **It starts with the root node and it's written in the form of `/dts-v1/`**
+ - **The properties are written in the form of `key = value;`**
+ - **Every node represents a device or IP block**
+ - **Note that the CPU and the memory**
+
+![alt text](image-2.png)
+
+
+# Real Example :
+
+![alt text](image-3.png)
+
+- **Note that the CPU has a property called `Compatible` this specifies the hardware device driver,it makes the kernel identify the CPU model and load the appropriate drivers and firmware.**
+
+
+## The reg property:
+- **The reg property is used to specify the address and the size of the memory mapped registers of the device.**
+
+- ![alt text](image-5.png)
+
+- **The first value is the address and the second value is the size.**
+
+-  ```c
+    reg = <0x3F000000 0x100000>; //This means a single bank of memory that begins at 0x3F000000 and is 0x100000 bytes long.
+    ``` 
+- **But what if we want to make more that one bank memory ? We will have to assign values to `#address_cells` and `#size_cells`**
+
+- ![alt text](image-4.png)
+
+
+
+
+## labels:
+ - **The labels are used to refer to the nodes in the device tree(Every node might has a label), we use it if we want to make connections between the components**
+ - **We can reference the node from another node by the label**
+ - **Lables can be named `Phandles`**
+
+![alt text](image-6.png)
+
+
+
+## Includes in Device tree :
+ - **The device tree can be splitted out into sections using the include files**
+ - **There's a file with`.dtsi` extention, this is the include file of the device tree** 
+ - **This include can be done with the normal include in C `#include "file.dtsi"`**
+
+![alt text](image-7.png)
+
+
+
+
+
+## Compiling the Device tree :
+ - **The bootloader and the kernel needs a binary file to deal with so we have to compile the `.dtc` file to generate a binary called `.dtb`** 
+ - **The figure below shows , we will use the `dtsi` header file and the `dts` file to generate the `.dtb` file , Very easy right :) ?** 
+
+![alt text](image-8.png)
