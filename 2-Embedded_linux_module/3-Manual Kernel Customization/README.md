@@ -8,6 +8,9 @@ sudo apt install subversion libssl-dev
 sudo apt-get install qemu-system
 sudo apt-get install device-tree-compiler
 ```
+
+![alt text](Assets/image.png)
+
 ### 1. **Download the kernel source code**      [From here](https://kernel.org/)
 **after this you will find the kernel source code in the `tar.xz` format , you can extract it using the following command:**
 - ```bash
@@ -49,11 +52,20 @@ sudo apt-get install device-tree-compiler
         # uImage: zImage + uBoot header 
         make -j4 ARCH=arm64 CROSS_COMPILE=aarch64-rpi4-linux-gnu- LOADADDR=0x80008000 uImage
         ```
+- You will find the Image here in this path :
+`/home/wagdy/Desktop/Embedded_linux/Kernel/linux-6.10.9/arch/arm64/boot` it will be named with Image 
 
 ### 4. **Booting the kernel**
+- **If you wrote the following command it will boot the kernel in the QEMU , but at the end you will face a kernel panic because there's no FS which we are going to do in the next README**
+-   ```bash
+    qemu-system-aarch64 -M virt -cpu cortex-a53 -m 1G -kernel Image -append "console=ttyAMA0" -nographic
+    ```
+- ![alt text](image-2.png)
 
-![alt text](Assets/image.png)
-
+> Note that the only way to exit is to kill the process by using 
+```bash
+kill -TERM <PID>
+```
 
 
 

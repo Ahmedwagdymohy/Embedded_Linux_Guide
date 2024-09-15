@@ -20,3 +20,43 @@ the filesystem contains the `(initprocess systemd or systemv - binaries - applic
 5. **Applications**
 
 
+We are going to use the `busyBox` to create the filesystem, it contains a lot of commands and utilities that are used in the linux system
+
+#### Steps:
+1. Download the busyBox 
+```bash
+git clone https://github.com/mirror/busybox.git
+```
+2. Configure the busyBox
+```bash
+make ARCH=arm64 CROSS_COMPILE=aarch64-rpi4-linux-gnu- deconfig # to clean the old configurations
+make ARCH=arm64 CROSS_COMPILE=aarch64-rpi4-linux-gnu- menuconfig # to configure the busyBox
+```
+3. Build the busyBox
+```bash 
+make ARCH=arm64 CROSS_COMPILE=aarch64-rpi4-linux-gnu-
+```
+4. Install the busyBox
+```bash
+make ARCH=arm CROSS_COMPILE=aarch64-rpi4-linux-gnu- install CONFIG_PREFIX=/home/wagdy/Desktop/Embedded_linux/rootfs
+```
+
+5. Go to the rootfs directory and create the following directories:
+```bash
+cd /home/wagdy/Desktop/Embedded_linux/rootfs
+mkdir  proc sys 
+```
+
+6. After all we need to have a file called `initramfs.cpio` with `.cpio` extension , it's a compressed file that contains the filesystem
+```bash
+# make sure to execute this command inside the rootfs directory
+cd /home/wagdy/Desktop/Embedded_linux/rootfs
+find . -print0 | cpio --null -ov --format=newc > initramfs.cpio
+```
+
+
+
+7. Now we can boot qemu using the `Image` kernel we have and the `Initramfs.cpio` we created
+```bash
+qemu-system-aarch64 -M virt -cpu cortex-a53 -m 1G -kernel <Image Path> -append "console=ttyAMA0 rdinit=/bin/sh" -initrd <initramfs file> -nographic 
+```
