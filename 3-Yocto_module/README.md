@@ -108,6 +108,7 @@ cd poky
 ```
 
 - **Step 3**: Initialize the build environment:
+This will create a new build environment adn setup some build scripts , it also sets some shell variables
 ```bash
 source oe-init-build-env
 cd conf/
@@ -123,8 +124,8 @@ MACHINE ??= "qemuarm64"
 ```
 - also add the following two lines below :
 ```bash
-BB_NUMBER_THREADS="8" # specify the number of threads to use
-PARALLEL_MAKE="-j 8"  # specify the number of threads to use
+BB_NUMBER_THREADS="8" # Number of parallel BitBake tasks
+PARALLEL_MAKE="-j 8"  # Number of parallel make tasks
 ```
 
 
