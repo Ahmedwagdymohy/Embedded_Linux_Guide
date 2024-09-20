@@ -139,3 +139,111 @@ bitbake core-image-minimal
 # We will use Qemu simulation , you can use it with real HW
 runqemu qemuarm64 nographic
 ```
+
+
+
+
+
+# Yocto Architecture:
+- **Layers**: is some directories contains thins related to each other , like `BSP` layer and `sw` layer and `distribution` Layer it also contains `Meta-data` which contains `Recipes` & `classes` & `conf` files
+- **Purpose**: Each layer can be thought of as a modular piece of functionality. Layers allow the reuse of code, modularity, and easier maintenance.
+
+**Example**: There could be a layer for a specific hardware platform (e.g., meta-raspberrypi), or for adding graphical interface components (e.g., meta-gnome).
+
+
+![alt text](image-5.png)
+
+
+- To create a layer we use 
+```bash
+#but don't forget to source the oe-init-build-env before 
+bitbake-layers create-layer meta-my-layer
+```
+- **if you checked the directory you will find a dir named `meta-my-layer` contains the data of the layer like the conf files and the recipes**
+- But now the created layers doesn't appear in the `bblayers.conf` file so we need to add it manually by using the following command:
+```bash
+#Don't forget to go to the build directory
+cd build
+bitbake-layers add-layer meta-my-layer
+```
+
+
+- To show the layers of the system :
+```bash
+bitbake-layers show-layers
+```
+
+- To  remove the layer :
+```bash
+# this will remove the layer from the variable `BBLAYERS` in the `bblayers.conf` file but it doesn't remove the layer from the disk
+bitbake-layers remove-layer meta-my-layer
+```
+
+- To remove the layer from the disk:
+```bash
+#normal removing not related to the Bitbake
+rm -rf meta-my-layer
+```
+
+- **Recipes**: is a file that contains the instructions to build a package , it contains the following:
+
+
+
+![alt text](image-6.png)
+
+# layers types:
+- **BSP Layer**: This layer contains the board support package for a specific hardware platform. It includes the kernel, bootloader, and other hardware-specific configurations. 7agat el HW
+
+- **SW Layer**: This layer contains the software packages that will be included in the final image. It includes libraries, applications, and other software components.
+
+- **Distribution Layer**: This layer contains the configuration for the final image. It includes the list of packages to be included, the image type, and other configuration options.
+
+
+
+# Let's get started:
+We will follow the bottom up concept
+- **We will take the BSP from the Vendor and integrate it in our system , we can also create one but that's not a common thing to do**
+
+- **Go to OpenEmbedded and download the BSP for the RASP4, or just use the following command**
+```bash
+git clone -b kirkstone https://git.yoctoproject.org/meta-raspberrypi
+```
+- **This will download the BSP and put it to dir called `meta-raspberrypi`**
+
+- **If you go to the path `meta-raspberrypi/recipes-core/images/rpi-test-image.bb` you will find core recipe file it has the name of the image we are going to generate**
+
+- **Now just go to the `conf` dir and to the `local.conf` and change the `MACHINE` variable to .... but wait we don't know what's the options to put here**
+
+- **To know the options that are available from the BCP, you can go to the `meta-raspberrypi/conf/machine` and you will find the available options** 
+
+Here's the options you will find :
+
+![alt text](image-7.png)
+
+- **Now we can go to the `local.conf` and change the `MACHINE` variable to `raspberrypi4-64`**
+
+- **Now we should build the image of the rasp4 we will use command bitbake and then the image name , the image name we got from`meta-raspberrypi/recipes-core/images/rpi-test-image.bb`**
+```bash
+bitbake rpi-test-image
+```
+
+
+- **After finishing the Building you will find the image in `build/tmp/deploy/images/raspberrypi4-64`** 
+
+
+- **Then we are going to flash the image on rasperrypi using the functions we did in the script.sh file**
+
+
+
+## Integrating SW Layer:
+
+TASKS: 
+
+--> Add meta-QT layer then you will face the error then you will have to add another layer called `Meta-openEmbedded` inside it you will find another layer called `meta-oe` that's what we need 
+
+NOTE : Make the layers little as much as you can to keep it simple
+
+what's the distripution layer ? 
+
+You will face this error
+![alt text](image-8.png)
