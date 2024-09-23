@@ -456,7 +456,108 @@ Inisde the layers there's something called recipes , there are 4 types of the re
 
 
 
-****************************************************** Session notes ************************************************************
+
+## steps on Recipes: 
+Those are the steps we do on the Recipes , the step Configure and compile are system dependant so it can be , `make` or `cmake` or `autool` 
+
+![alt text](image-12.png)
+
+We will start with the package recipe 
+
+## Package Recipes:
+**Using native c++ application**
+1. Start by sourcing the build environment 
+2. Create a new layer for the package by the following command:
+```bash
+cd build # Don't forget to go to the build dir
+bitbake-layers create-layer ../meta-IVI # Don't forget to change the path to the correct one to be outside build
+```
+3. You will find a new dir called `meta-IVI` created  if you go to it you will find simple structre tree like :
+
+![alt text](image-18.png)
+
+4. We will start by creating a new dir called `recipes-native-cpp` and inside it create another one called `helloworld` 
+```bash
+cd meta-IVI
+mkdir -p recipes-native-cpp/helloworld
+```
+
+5. Inside the `helloworld` dir use the following command :
+```bash
+recipetool create -o helloworld_1.0.bb https://github.com/embeddedlinuxworkshop/y_t1 
+```
+
+
+
+6. then you will find that he has created a new recipe with the name `helloworld_1.0.bb`
+
+7. open the `helloworld_1.0.bb` and make the stages of the compile and install like this, or just copy paste this content:
+```bash
+# Recipe created by recipetool
+# This is the basis of a recipe and may need further editing in order to be fully functional.
+# (Feel free to remove these comments when editing.)
+
+# Unable to find any files that looked like license statements. Check the accompanying
+# documentation and source headers and set LICENSE and LIC_FILES_CHKSUM accordingly.
+#
+# NOTE: LICENSE is being set to "CLOSED" to allow you to at least start building - if
+# this is not accurate with respect to the licensing of the software being built (it
+# will not be in most cases) you must specify the correct value before using this
+# recipe for anything other than initial testing/development!
+LICENSE = "CLOSED"
+LIC_FILES_CHKSUM = ""
+
+SRC_URI = "git://github.com/embeddedlinuxworkshop/y_t1;protocol=https;branch=master"
+
+# Modify these as desired
+PV = "1.0+git${SRCPV}"
+SRCREV = "49600e3cd69332f0e7b8103918446302457cd950"
+
+S = "${WORKDIR}/git"
+
+# NOTE: no Makefile found, unable to determine what needs to be done
+
+
+do_compile () {
+	# Specify compilation commands here
+	# change the permissions of the file to be executable
+	
+	$CXX ${S}/main.cpp -o hello
+}
+
+do_install () {
+	# 1. Create dir ${workdir}/image/usr/bin
+	install -d ${D}/${bindir}
+	# 2. installing hello bin --> dir ${workdir}/image/usr/bin
+	install -m 0755 ${S}/hello ${D}/${bindir}
+}
+
+
+
+
+# ignore the do_package_qa
+do_package_qa[noexec] = "1"
+```
+
+
+7. let's bitbake the file :
+```bash
+bitbake helloworld
+```
+
+8. then you can see the output of the file which is the hello.out file in the path `${workdir}/image/usr/bin`
+, but How to get the workdir value? you can get it by using the following command:
+```bash
+# this will get the environment variables of the helloworld recipe
+bitbake -e helloworld | grep ^WORKDIR
+```
+9. now we are done with the recipe baking
+
+
+*************************************************************************************************************************************
+****************************************************To be Documented **************************************************************
+
+
 - in the tmp dir we have another dir called deploy inside it you will find images dir, it will look so messy and we can't use all of this to flash the board so we will use the flashing script we have created in the `flashing.sh` file with a tool called `wic` to convert it to iso image 
 
 
@@ -465,6 +566,108 @@ Inisde the layers there's something called recipes , there are 4 types of the re
 
 
 - Distro = Kernel + Application installed in the userspace , so we create the distro to give us the ability to edit the apps or the choosing the kernel version , it's like choosing between Ubuntu and Fedora both are distros but they have different apps and kernel versions
+
+
+
+
+
+- We can create recipes using the both tools `devtool add` and the `recipetool create`
+
+
+- Devtool is more advanced than the recipy tool
+
+
+- The devtool give us the capality to work like GIT it has some commands to workin the workspace and stay away from the src file , and when we finish the edits then we apply this to the original file
+
+
+
+
+********** Scenario what happends inside the Yoctoand what's the interactions between the layers and the recipes: **********
+********** Yocto Runtime: **********
+1. when we run the command `bitbake rpi-test-image`
+2. the bitbake will go the dir of `build/conf` and then open the file `local.conf` , the `local.conf` file contains the configurations of the build like the `MACHINE` and the `DISTRO` and the `LAYERS` and the `BB_NUMBER_THREADS` and the `PARALLEL_MAKE` , we care now about the `MACHINE` and the `DISTRO` 
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+
+3. then it will open the `bblayers.conf` and load the `BBLAYERS` variable with the layers we have added to the bitbake
+
+![alt text](image-15.png)
+
+4. All the Variables and the data we read above will be loaded in the Data_Dictionary  
+
+![alt text](image-16.png)
+
+
+5. Then it will retrun from the data dictionary and deal with the Data_Dictionary we loaded 
+6. it will start with doing the following steps :
+    - Load the DISTRO conf if the variable DISTRO , so it will search for a file called `pocky.conf ` but why pocky? cuz we added in the DISTRO variable in the `local.conf` file pocky , search where? search in the layers he loaded in the `BBLAYERS`
+    - When he goes to the `pocky.conf` it will also load the varaibles and the data on it to the Data_Dictionary
+    - Now we fininshed the `DISTRO` , let's load the `MACHINE` varaible 
+    - The `MACHINE` has the value of `raspberrypi4-64` so it will search for a file called `raspberrypi4-64.conf` in the layers he loaded in the `BBLAYERS`
+    - After finding the file it will also load the variables and the data on it to the Data_Dictionary
+    - Then it will search for a file called `rpi-test-image.bb` -> (this is the name of the thing we bitbaked first) in the layers he loaded in the `BBLAYERS`
+    - This file is a recipe file it has variables and functions, it will load the variables inside the Data_Dictionary, but the vraiable from the recipe will be `local` not `global` , then it will execute the functions , one of the functions called `IMAGE_INSTALL` will have the 
+
+    - ![alt text](imageedit_2_4468875921.gif)
+
+    - Inside the `packagegroup-rpi-test` it will find some apps names , it should make sure that's installed and exists inside all the layers 
+    - If one of the applications is not exist it will show an error
+    - Then it will deploy the Image to `output/tmp/deploy/images/raspberrypi4-64`
+
+----------------------------------------------------------------------------------------------------------
+- To get the environment varaibles of the bitbake , you can use the following command:
+```bash
+bitbake -e recipename
+```
+![alt text](image-17.png)
+
+
+
+
+
+
+
+
+
+
+
+
+*************************************************************************************************************************************
+**************************************************** End of To be Documented ********************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 - Booting sequence of the Rasperrypi :
