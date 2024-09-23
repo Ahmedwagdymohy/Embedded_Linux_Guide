@@ -465,6 +465,7 @@ Those are the steps we do on the Recipes , the step Configure and compile are sy
 We will start with the package recipe 
 
 ## Package Recipes:
+
 **Using native c++ application**
 1. Start by sourcing the build environment 
 2. Create a new layer for the package by the following command:
@@ -554,6 +555,25 @@ bitbake -e helloworld | grep ^WORKDIR
 9. now we are done with the recipe baking
 
 
+
+
+## Image Recipes:
+- **What's the Image recipe ?**The Image recipe it's output is a rootfs with specific file system, this fs is excpected to be on the target
+- If you remember the `core-image-minimal` this is an image recipe for a very simple recipe that's used just to boot the device 
+- We have some Image recipes gahza 3andi , to see it use : 
+```bash
+ls meta*/recipes*/images/*.bb
+```
+![alt text](image-19.png)
+
+Those are the Image recipes that exist on my device
+
+
+- If we inspected the `core-image-minimal` recipe you will find that it has the following inhertance :
+
+![alt text](image-20.png)
+
+
 *************************************************************************************************************************************
 ****************************************************To be Documented **************************************************************
 
@@ -620,7 +640,7 @@ bitbake -e helloworld | grep ^WORKDIR
 ----------------------------------------------------------------------------------------------------------
 - To get the environment varaibles of the bitbake , you can use the following command:
 ```bash
-bitbake -e recipename
+bitbake -e <recipename>
 ```
 
 ![alt text](image-17.png)
