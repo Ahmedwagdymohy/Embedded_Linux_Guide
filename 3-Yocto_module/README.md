@@ -622,6 +622,7 @@ bitbake -e helloworld | grep ^WORKDIR
 ```bash
 bitbake -e recipename
 ```
+
 ![alt text](image-17.png)
 
 
