@@ -655,6 +655,95 @@ It inherets from `core-image.bbclass` and this ineherts from `image.bbclass`
 
 
 
+
+
+
+# Real life project example:
+Link of the project [here](https://bullet.guru/courses/embedded-linux-projects/lectures/57363366)
+
+**Steps**
+1. Read the c++ source code and define the dependancies of the code (openssl)
+2. You will find that we need the openssl library
+3. Now let's create our layer for example name it `meta-security`
+4. Don't forget to add the layer to the bitbake layers
+5. now create a this dirs in the layer `meta-security/recipes-apps/ `   
+6. then create a recipe file called `hellossl_1.0.bb` and add the following content to it:
+```bash
+# recipe for anything other than initial testing/development!
+LICENSE = "CLOSED"
+LIC_FILES_CHKSUM = ""
+
+SRC_URI = "file://main.cpp" 
+
+
+# Documentaintion variables 
+SUMMARY     = ""
+DESCRIPTION =""
+HOMEPAGE    = ""
+
+
+
+# This is the most important part of the recipe
+DEPENDS = "openssl"
+
+
+
+# Modify these as desired
+PV = "1.0"
+
+
+S = "${WORKDIR}"
+
+# NOTE: no Makefile found, unable to determine what needs to be done
+
+do_configure () {
+	# Specify any needed configure commands here
+	:
+}
+
+do_compile () {
+	
+    ${CXX} ${S}/main.cpp  -lssl -lcrypto -o hellossl
+}
+
+do_install () {
+	# Specify install commands here
+	:
+	
+}
+do_package_qa[noexec]="1"
+
+``` 
+
+   - **Note**: We need to know if the openssl recipe is already made by someone before , so we go to [here](https://layers.openembedded.org/layerindex/branch/master/recipes/?q=openssl) we will find the recipe in a layer called openembedded-core , and we have it already just we have to mention the keyword `DEPEND` in our application revcipe , it will go and search for a recipe with the name `openssl` 
+   - What going to happen in this step is bitbake will copy the content of the openssl workdir to the workdir of the hellossl recipe and then it will compile the hellossl recipe
+
+7. then bitbake the recipe file
+
+8. add the pocky.sh script to the bashrc file and then source it , this script has an important function called `go_recipe` this function takes you to the WORKDIR of the recipe we are mentioning, this `WORKDIR` is so IMPORTANT
+
+9. 	for the line `${CXX} ${S}/main.cpp  -lssl -lcrypto -o hellossl` this line specifies the compiler and the static library of the ssl , so when we bitbake this it will go to the `WORKDIR` and go to `recipe-sysroot` and then go to the `usr/lib` and then find the `libssl.a` and then it will link it to the hellossl file
+
+
+10. After we have created the recipe for this app we will find it's content in the `WORDIR` of the recipe in usr/bin/hellossl , but that's not in the image ,to add it to the image we will have to add it to the `IMAGE_INSTALL = hellossl` in the image recipe file , now we have a package for this app called `hellossl`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Issues & Sol :
 ![alt text](image-22.png)
 
@@ -665,10 +754,6 @@ they should look like this :
 IMAGE_INSTALL:append = " helloworld"
 IMAGE_FEATURES:append = " debug-tweaks"
 ```
-
-
-
-
 
 
 <br>
@@ -781,6 +866,9 @@ bitbake -e <recipename>
 
 
 
+# What's the sysroot:
+- it's the rootfs of the target machine on the host machine , and it's used for cross-compilation to make sure that the compiler uses the correct libraries and headers 
+- it's also used to the consistency between the host and the target machine
 
 
 *************************************************************************************************************************************
