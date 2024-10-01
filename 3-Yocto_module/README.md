@@ -734,10 +734,36 @@ do_package_qa[noexec]="1"
 
 
 
+# Adding nano to our Image:
+before going into creating the recipe for the program, check if this program is exist inside other layers , to search use the following command :
+```bash
+bitbake-layers show-recipes <packagename>
+#for example we here is working with nano 
+bitbake-layers show-recipes nano
+```
+1. as we see in the above command nano is already there so all we need to do is to make sure that it's layer appeared is added in the `bblayer.conf` file
+2. Then go to the image recipe and scroll down to `IMAGE_INSTALL` and add `nano` to it
+3. bitbake the image recipe :)
 
 
 
 
+# Adding RPI-Play with Cmake to our image:
+1. First go to our layer `meta-IVI` and then add a new dir `recipes-info` inside it create a dir `rpi-play` and then use the following command inside it 
+```bash
+recipetool create -o rpi-play.bb https://github.com/FD-/RPiPlay.git # this is the link of the code for the `rpiplay`
+```
+2. But note that in the readme of the repo there's some dependancies , we gotta solve it and put it in the `DEPENDS` variables in the recipe
+
+![alt text](image-23.png)
+
+3. To know more about every dependacy search for it in the [here](https://layers.openembedded.org/layerindex/branch/master/recipes/)
+
+4. after searching you will find out that we need this :
+
+![alt text](image-24.png)
+
+(((((((((((((RPI-play recipe has a problem , edit it and then add it to the image recipe and then bitbake the image recipe)))))))))))))
 
 
 
