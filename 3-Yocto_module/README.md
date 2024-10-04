@@ -207,6 +207,18 @@ rm -rf meta-my-layer
 
 
 
+
+
+# Distro VS Image:
+- **In Yocto, a `distro` typically resides in a distro configuration file (e.g., poky.conf, infotainment.conf), and it specifies the overall framework for how the system will operate. The distro dictates global settings for the entire build process, including `toolchains`, `runtime` `libraries`, `debugging settings`, `default policies`, etc.**
+
+- **Images are defined through image recipes (e.g., core-image-minimal.bb, core-image-full-cmdline.bb). These recipes specify what software packages (applications, libraries, utilities) go into the root filesystem. They describe what will be included on the embedded device and how it will be structured.**
+
+SO - **The distro is a higher-level configuration than the image. You can think of the distro as defining global policies and system behavior, while the image defines the specific components (applications, libraries) that go into the final output (root filesystem).**
+
+
+
+
 # Let's get started:
 We will follow the bottom up concept
 - **We will take the BSP from the Vendor and integrate it in our system , we can also create one but that's not a common thing to do**
@@ -388,7 +400,7 @@ INFOTAINMENT_DEFAULT_EXTRA_RRECOMMENDS = "kernel-module-af-packet"
 DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT} ${INFOTAINMENT_DEFAULT_DISTRO_FEATURES} userland"
 
 #adding the systemd as init-process
-require conf/distro/include/systemd.conf
+require conf/distro/include/systemd.inc
 
 # prefered version for packages.
 PREFERRED_VERSION_linux-yocto ?= "5.15%"
@@ -427,7 +439,7 @@ VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
 
 ```bash
 #adding the systemd as init-process
-require conf/distro/include/systemd.conf
+require conf/distro/include/systemd.inc
 ```
 
 after those steps you should have the following structure :
@@ -765,6 +777,34 @@ recipetool create -o rpi-play.bb https://github.com/FD-/RPiPlay.git # this is th
 
 (((((((((((((RPI-play recipe has a problem , edit it and then add it to the image recipe and then bitbake the image recipe)))))))))))))
 
+
+
+
+
+
+
+
+# How to create batch file:
+1. Use the script function we created before `go_dev` to go the developer shell that we showed before
+2. go to the file we want to make patch on , and edit and save it
+3. then run `git diff > filename.patch`
+4. then go to the main device and create a file called `filename.patch`
+5. then add the path of the file to the `SRC_URI` in the recipe file 
+6. after adding the path of patch to `SRC_URI` it will excute this patch
+
+
+# How to emulate using Qemu:
+We have two types of the FS , one called `Disk based FS` and `Ram based FS` , the disk based is the normal we know ,the `ext4` and `ext3` , for the ram based it's called `initramfs` it's used to mount the fs in the ram and then boot the system from it 
+
+![alt text](image-25.png)
+
+
+
+
+
+
+# Layer priority:
+We need layer priority if we have two layers have the same recipe name , for example openssl.bb so if we made `bitbake openssl` it will take the recipe from the layer that has the highest priority 
 
 
 
