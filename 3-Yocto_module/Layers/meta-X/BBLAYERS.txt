@@ -1,0 +1,13 @@
+BBLAYERS ?= " \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-poky \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-yocto-bsp \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-example \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-raspberrypi \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-openembedded/meta-oe \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-qt5 \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-info-distro \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-audio-distro \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-IVI \
+  /home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/poky/meta-security \
+  "
