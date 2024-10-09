@@ -229,6 +229,11 @@ git clone -b kirkstone https://git.yoctoproject.org/meta-raspberrypi
 ```
 - **This will download the BSP and put it to dir called `meta-raspberrypi`**
 
+- **Don't forget to add the layer we have just downloaded to out layer by using**
+```bash
+bitbake-layers add-layer ../meta-raspberrypi
+```
+
 - **If you go to the path `meta-raspberrypi/recipes-core/images/rpi-test-image.bb` you will find core recipe file it has the name of the image we are going to generate**
 
 - **Now just go to the `conf` dir and to the `local.conf` and change the `MACHINE` variable to .... but wait we don't know what's the options to put here**
@@ -746,7 +751,8 @@ do_package_qa[noexec]="1"
 
 
 
-# Adding nano to our Image:
+# Adding nano to our Image using autotools:
+
 before going into creating the recipe for the program, check if this program is exist inside other layers , to search use the following command :
 ```bash
 bitbake-layers show-recipes <packagename>
@@ -756,6 +762,15 @@ bitbake-layers show-recipes nano
 1. as we see in the above command nano is already there so all we need to do is to make sure that it's layer appeared is added in the `bblayer.conf` file
 2. Then go to the image recipe and scroll down to `IMAGE_INSTALL` and add `nano` to it
 3. bitbake the image recipe :)
+
+4. if not already exists we should create it
+5. Create a dir called meta-
+6. to clean all configuratuin of a recipe use the following command:
+```bash 
+bitbake -c clean <packagename>
+```
+
+
 
 
 
@@ -788,8 +803,8 @@ recipetool create -o rpi-play.bb https://github.com/FD-/RPiPlay.git # this is th
 1. Use the script function we created before `go_dev` to go the developer shell that we showed before
 2. go to the file we want to make patch on , and edit and save it
 3. then run `git diff > filename.patch`
-4. then go to the main device and create a file called `filename.patch`
-5. then add the path of the file to the `SRC_URI` in the recipe file 
+4. take the content of this patch file copy and go to the layer we are working on and create another dir inside it with the same name and then put the patch file `filename.patch`
+5. then add the path of the file to the `SRC_URI` in the recipe file `"file://filename.patch"`
 6. after adding the path of patch to `SRC_URI` it will excute this patch
 
 
@@ -805,6 +820,31 @@ We have two types of the FS , one called `Disk based FS` and `Ram based FS` , th
 
 # Layer priority:
 We need layer priority if we have two layers have the same recipe name , for example openssl.bb so if we made `bitbake openssl` it will take the recipe from the layer that has the highest priority 
+
+
+
+
+
+
+# Creating functions inside recipe file :
+- **use the following syntax**:
+```bash
+do_recipeExample () {
+    #commands
+}
+```
+- **To assign the order of executing this function with the other function write the following:**:
+```bash
+addtask `do_recipeExample` after `do_compile` before `do_install`
+#use keywords before and after to specify!
+```
+
+- **To execute the function use the following command**:
+```bash
+bitbake <RecipeName> -c do_recipeExample
+```
+
+
 
 
 
