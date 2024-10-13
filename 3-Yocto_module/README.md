@@ -32,65 +32,179 @@ There are keywords we should know (`Yocto`,`Build system`, `Meta-data`, `OpenEmb
 ![alt text](image-4.png)
 
 
-## Getting started with Yocto:
-- **Prerequisites**:
-    - Create a bash script called `flashing.sh` and paste the following content:
+
+
+---
+
+
+
+# Prerequisites:
+
+### 1. Create a Bash Script for Flashing
+- **Create a bash script called `flashing.sh` and paste the following content:**
+
     ```bash
     #!/usr/bin/bash
 
     function sdcard-flashing(){
     
-    if [[ "$1" == "--help" ]]; then
-        printf "%s\n%s\n" "1st parameter: /dev/<driver>" "2nd parameter: <image iso>"
+        if [[ "$1" == "--help" ]]; then
+            printf "%s\n%s\n" "1st parameter: /dev/<driver>" "2nd parameter: <image iso>"
+            return 0
+        fi
+    
+        if (( $# < 2 )); then
+            echo "Invalid arguments passed, use --help for valid options."
+            return 1
+        fi
+
+        declare DRIVER=$1
+        declare IMAGE_PATH=$2
+    
+        sudo dd if="${IMAGE_PATH}" of="${DRIVER}" status=progress
+
         return 0
-    fi
-    
-
-    if (( $# < 2 )); then
-        echo "Invalid arguments passed use --help for valid options."
-        return 1
-    fi
-
-    declare DRIVER=$1
-    declare IMAGE_PATH=$2
-    
-    sudo dd if="${IMAGE_PATH}" of="${DRIVER}" status=progress
-
-    return 0
     }
-
 
     function create-rpi-image(){
+    
+        if [[ "$1" == "--help" ]]; then
+            printf "%s\n%s" "1st parameter: image-name" "RUN: wic list images"
+            return 0
+        fi
+    
+        if (( $# < 1 )); then
+            echo "Invalid arguments passed, use --help for valid options."
+            return 1
+        fi
 
-    if [[ "$1" == "--help" ]]; then
-        printf "%s\n%s" "1st parameter: image-name" "RUN: wic list images"
+        declare IMAGE_NAME=$1
+    
+        sudo wic create sdimage-raspberrypi -e ${IMAGE_NAME}
+
         return 0
-    fi
-    
-
-    if (( $# < 1 )); then
-        echo "Invalid arguments passed use --help for valid options."
-        return 1
-    fi
-
-    declare IMAGE-NAME=$1
-    
-    sudo wic create  sdimage-raspberrypi -e ${IMAGE-NAME}
-
-    return 0
     }
-     ```
-
-     - Add it to the `.bashrc` file to source it by using the following commands:
-
-     ```bash
-     sudo nano ~/.bashrc
-        # Add the following line to the end of the file # Don't forget to change the path to the correct one
-    if [ -f "/home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/flashing.sh" ]; then
-    source "/home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/flashing.sh"
-    fi
-
     ```
+
+### 2. Source the Script in `.bashrc`
+- Add the script to your `.bashrc` file to source it by using the following commands:
+
+    ```bash
+    sudo nano ~/.bashrc
+    ```
+
+    - Add the following line to the end of the file (don't forget to change the path to the correct one):
+
+    ```bash
+    if [ -f "/home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/flashing.sh" ]; then
+        source "/home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/flashing.sh"
+    fi
+    ```
+
+---
+
+## Create the Devshell Tool
+
+### 1. Create the `devshell.sh` Script
+- Create a file called `devshell.sh` and use the following content:
+
+    ```bash
+    #!/usr/bin/bash
+    # Function to open the work directory of a recipe.
+    function go_recipe(){
+        if (( $# != 1 )); then
+            echo "Please Enter recipe name"
+            return 1
+        fi
+
+        # 1. Run bitbake -e to get WORKDIR path.
+        declare RECIPE_WD_PATH
+        # Use $() to correctly capture the output of the bitbake command
+        RECIPE_WD_PATH=$(bitbake -e "$1" | grep "^WORKDIR=")
+
+        # Remove 'WORKDIR=' and any extra characters like quotes
+        RECIPE_WD_PATH="${RECIPE_WD_PATH#*=}"
+        RECIPE_WD_PATH="${RECIPE_WD_PATH#*\"}"
+        RECIPE_WD_PATH="${RECIPE_WD_PATH%\"*}"
+
+        if [[ -z "$RECIPE_WD_PATH" ]]; then
+            echo "Failed to retrieve WORKDIR for recipe '$1'."
+            return 1
+        fi
+
+        echo "----------- Now you are in '$1' recipe WORKDIR -----------"
+        echo "WORKDIR: $RECIPE_WD_PATH"
+
+        # Navigate to the WORKDIR
+        cd "$RECIPE_WD_PATH" || {
+            echo "Failed to navigate to $RECIPE_WD_PATH"
+            return 1
+        }
+
+        return 0
+    }
+
+    # Function to enter the devshell of a recipe.
+    function go_dev(){
+        if (( $# != 1 )); then
+            echo "Please add recipe name"
+            return 1
+        fi
+
+        RECIPE_NAME="$1"
+
+        # Run bitbake -c devshell
+        bitbake -c devshell "$RECIPE_NAME" || {
+            echo "Failed to open devshell for recipe '$RECIPE_NAME'"
+            return 1
+        }
+
+        return 0    
+    }
+    ```
+
+### 2. Change the Permissions of the Script
+- Run the following command to make the script executable:
+
+    ```bash
+    chmod +wrx devshell.sh
+    ```
+
+### 3. Source the Script in `.bashrc`
+- Add it to the `.bashrc` file by using the following command:
+
+    ```bash
+    sudo nano ~/.bashrc
+    ```
+
+    - Add the following line at the end of the file:
+
+    ```bash
+    if [ -f "/home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/devshell.sh" ]; then
+        source "/home/wagdy/Desktop/Embedded_linux/YOCTO_TRAINING/devshell.sh"
+    fi
+    ```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Getting started with Yocto:
 
 - **Step 1**: Install the required packages:
 ```bash
