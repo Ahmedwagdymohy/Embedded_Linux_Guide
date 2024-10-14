@@ -1208,6 +1208,69 @@ Error comes from two sources:
 
 
 
+
+# Audio stack:
+
+- We have set of layers in the Audio stack 
+    1. the starting layer is the hardware configurations , we should configure the rasp first to support audio 
+    2. Then we have the Alsa cards (Advanced Linux Sound Architecture) it's the layer that interacts directly with the hardware , It provides the interface between the user space applications and the kernel-level drivers. ALSA handles tasks like transferring audio data between user space and hardware buffers
+    3. The Alsa cards acts as the sound drivers in linux , it provides API's to let the userspace interacts with the kernel
+    4. Then We have the PulseAudio which is the sound server that handles All the Audio inside the systems like `Volume Control` and the `Audio Routing` and the `Audio Mixing` ,and then pass to the Alsa cards to interact with the 
+    5. Then we have the GStreamer layer which is responsible for decoding Audio formats and processing the Audio 
+    6. Then we have the Media player like VLC
+
+
+
+    - ![alt text](image-32.png)
+
+
+- **The Journey summarized :**
+
+    1. VLC Player: The VLC player decodes the audio stream from the media file and sends it to the Phonon or GStreamer framework.
+    2. Phonon/GStreamer: These frameworks process the audio data and send it to PulseAudio.
+    3. PulseAudio: PulseAudio mixes the audio with other applications' audio, applies volume settings, and resampling if necessary. It then sends the mixed audio to ALSA.
+    4. ALSA: ALSA transfers the audio data from user space to the kernel-level drivers (snd_hda_core or snd_usb_audio).
+    5. Kernel Modules: The kernel modules interact with the hardware to control the audio playback. They configure the audio chipsets or USB devices, and send the audio data to the hardware.
+    6. Hardware: The audio data is converted to analog signals and played through the speakers or headphones.
+
+
+**This is a detailed Block Diagram for the Journey of the sound from the media player to the HW:**
+
+   - ![alt text](image-33.png)
+
+# Integrating Audio stack with Yocto:
+1. To add the audio stack we need to add the components we disscussed above
+2. Go to `meta-IVI/classes` and create a new class called `audio.bbclass` 
+3. The content we will put is the components we need and I got them from the OpenEMbedded layer website , use the following :
+    ```bash
+    IMAGE_INSTALL:append = " pavucontrol pulseaudio bluez5 alsa-utils alsa-ucm-conf alsa-topology-conf alsa-tools alsa-state alsa-plugins alsa-lib" 
+    ```
+4. Then go to the Image recipe `ivi-test-image` and put the following line :) :
+    ```bash
+    inherit audio
+    ```    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Issues & Sol :
 ![alt text](image-22.png)
 
@@ -1220,6 +1283,14 @@ IMAGE_FEATURES:append = " debug-tweaks"
 ```
 
 
+
+
+
+
+
+
+
+    
 <br>
 <br>
 <br>
