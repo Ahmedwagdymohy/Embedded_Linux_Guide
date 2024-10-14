@@ -37,7 +37,6 @@ There are keywords we should know (`Yocto`,`Build system`, `Meta-data`, `OpenEmb
 ---
 
 
-
 # Prerequisites:
 
 ### 1. Create a Bash Script for Flashing
@@ -878,22 +877,14 @@ do_package_qa[noexec]="1"
 
 # Adding nano to our Image using autotools:
 
-before going into creating the recipe for the program, check if this program is exist inside other layers , to search use the following command :
-```bash
-bitbake-layers show-recipes <packagename>
-#for example we here is working with nano 
-bitbake-layers show-recipes nano
-```
-1. as we see in the above command nano is already there so all we need to do is to make sure that it's layer appeared is added in the `bblayer.conf` file
-2. Then go to the image recipe and scroll down to `IMAGE_INSTALL` and add `nano` to it
-3. bitbake the image recipe :)
+1. The first step is to go to [Here](https://layers.openembedded.org/layerindex/branch/master/recipes/?q=nano) and search in the recipes for nano 
+2. If you found it in a layer that we already have ,so no need to adding it again , you can use it directly in the `package install`
 
-4. if not already exists we should create it
-5. Create a dir called meta-
-6. to clean all configuratuin of a recipe use the following command:
-```bash 
-bitbake -c clean <packagename>
-```
+3. As you can see here nano is in the meta-oe layer which we have :
+
+![alt text](image-29.png)
+
+4. So we know that we can use the nano directly in our image using  IMAGE_INSTALL:append = "  nano"
 
 
 
@@ -901,22 +892,139 @@ bitbake -c clean <packagename>
 
 
 # Adding RPI-Play with Cmake to our image:
-1. First go to our layer `meta-IVI` and then add a new dir `recipes-info` inside it create a dir `rpi-play` and then use the following command inside it 
+
+2. go to pocky dir
+3. Go to ur desired layer , we use `meta-IVI` and we already added it to the bitbake layers , If you will create a new one don't forget to add it using 
+    - ```bash
+        bitbake-layers add-layer <layername>
+      ```
+3. Create a new dir called `recipes-info/rpiplay` inside it
+
+1. The rpi-play  [Official Repo](https://github.com/FD-/RPiPlay/tree/master) which we will use
+4. go to the rpiplay dir we created and then start creating the recipe
+5. ```bash
+      cd poky/meta-IVI/recipes-info/rpiplay
+      recipetool create -o rpi-play.bb https://github.com/FD-/RPiPlay.git 
+   ```
+6. If you bitbaked the recipe now , you we see that we face dependancies Errors so let's solve the dependancies, If you see the repo we have those:
+
+    - ![alt text](image-30.png)
+
+7. Use [This Website](https://layers.openembedded.org/layerindex/branch/master/recipes/?q=nano) to search for each library and see which layer it requires 
+
+8. Go to rpi-play.bb and add this to depends Variable
+- ```bash
+    DEPENDS = "openssl avahi libplist userland gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good" 
+  ```
+9. The rpi-play.bb file should be like this :
 ```bash
-recipetool create -o rpi-play.bb https://github.com/FD-/RPiPlay.git # this is the link of the code for the `rpiplay`
+LICENSE = "Unknown"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                    file://lib/llhttp/LICENSE-MIT;md5=f5e274d60596dd59be0a1d1b19af7978 \
+                    file://lib/playfair/LICENSE.md;md5=c7cd308b6eee08392fda2faed557d79a"
+
+SRC_URI = "git://github.com/FD-/RPiPlay.git;protocol=https;branch=master \
+           file://sysrootEdit.patch"
+
+# Modify these as desired
+PV = "1.0+git${SRCPV}"
+SRCREV = "64d0341ed3bef098c940c9ed0675948870a271f9"
+
+S = "${WORKDIR}/git"
+
+
+
+# NOTE: the following library dependencies are unknown, ignoring: brcmEGL openmaxil brcmGLESv2 plist bcm_host vcos plist-2 vchiq_arm
+#       (this is based on recipes that have previously been built and packaged)
+DEPENDS = "openssl avahi libplist userland gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good" 
+
+
+inherit cmake pkgconfig
+
+# The following lines to solve an advanced error in the Cmake compiler
+TARGET_LDFLAGS      += "-Wl,--copy-dt-needed-entries"
+EXTRA_OEMAKE:append  = 'LDFLAGS="${TARGET_LDFLAGS}"'
 ```
-2. But note that in the readme of the repo there's some dependancies , we gotta solve it and put it in the `DEPENDS` variables in the recipe
 
-![alt text](image-23.png)
+10. We will need to create a patch file inside the rpi-play dir , create another dir called `rpi-play` then create patch file with name `sysrootEdit.patch`, You should have the following structure :
+    - ![alt text](image-31.png)
 
-3. To know more about every dependacy search for it in the [here](https://layers.openembedded.org/layerindex/branch/master/recipes/)
 
-4. after searching you will find out that we need this :
 
-![alt text](image-24.png)
 
-(((((((((((((RPI-play recipe has a problem , edit it and then add it to the image recipe and then bitbake the image recipe)))))))))))))
 
+
+
+12. Put this data inside the patch file :
+
+    ```bash
+    diff --git a/renderers/CMakeLists.txt b/renderers/CMakeLists.txt
+    index e561250..2524d3c 100755
+    --- a/renderers/CMakeLists.txt
+    +++ b/renderers/CMakeLists.txt
+    @@ -7,7 +7,7 @@ endif()
+    
+     # Common x86/x86_64 cflags
+     if( CMAKE_SYSTEM_PROCESSOR MATCHES "(x86)|(X86)|(amd64)|(AMD64)" )
+    -    set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Ofast -march=native" )
+    +    set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Ofast -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard" )
+     endif()
+    
+     # Always compile the dummy renderers
+    @@ -17,20 +17,20 @@ set( RENDERER_LINK_LIBS "" )
+     set( RENDERER_INCLUDE_DIRS "" )
+    
+     # Check for availability of OpenMAX libraries on Raspberry Pi
+    -find_library( BRCM_GLES_V2 brcmGLESv2 HINTS ${CMAKE_SYSROOT}/opt/vc/lib/ )
+    -find_library( BRCM_EGL brcmEGL HINTS ${CMAKE_SYSROOT}/opt/vc/lib/ )
+    -find_library( OPENMAXIL openmaxil HINTS ${CMAKE_SYSROOT}/opt/vc/lib/ )
+    -find_library( BCM_HOST bcm_host HINTS ${CMAKE_SYSROOT}/opt/vc/lib/ )
+    -find_library( VCOS vcos HINTS ${CMAKE_SYSROOT}/opt/vc/lib/ )
+    -find_library( VCHIQ_ARM vchiq_arm HINTS ${CMAKE_SYSROOT}/opt/vc/lib/ )
+    +find_library( BRCM_GLES_V2 brcmGLESv2 HINTS ${CMAKE_SYSROOT}/usr/lib/ )
+    +find_library( BRCM_EGL brcmEGL HINTS ${CMAKE_SYSROOT}/usr/lib/ )
+    +find_library( OPENMAXIL openmaxil HINTS ${CMAKE_SYSROOT}/usr/lib/ )
+    +find_library( BCM_HOST bcm_host HINTS ${CMAKE_SYSROOT}/usr/lib/ )
+    +find_library( VCOS vcos HINTS ${CMAKE_SYSROOT}/usr/lib/ )
+    +find_library( VCHIQ_ARM vchiq_arm HINTS ${CMAKE_SYSROOT}/usr/lib/ )
+    
+     if( BRCM_GLES_V2 AND BRCM_EGL AND OPENMAXIL AND BCM_HOST AND VCOS AND VCHIQ_ARM )
+       # We have OpenMAX libraries available! Use them!
+       message( STATUS "Found OpenMAX libraries for Raspberry Pi" )
+    -  include_directories( ${CMAKE_SYSROOT}/opt/vc/include/ 
+    -  	${CMAKE_SYSROOT}/opt/vc/include/interface/vcos/pthreads 
+    -  	${CMAKE_SYSROOT}/opt/vc/include/interface/vmcs_host/linux 
+    -  	${CMAKE_SYSROOT}/opt/vc/src/hello_pi/libs/ilclient )
+    +  include_directories( ${CMAKE_SYSROOT}/usr/include/ 
+    +  	${CMAKE_SYSROOT}/usr/include/interface/vcos/pthreads 
+    +  	${CMAKE_SYSROOT}/usr/include/interface/vmcs_host/linux 
+    +  	${CMAKE_SYSROOT}/usr/src/hello_pi/libs/ilclient )
+    
+       option(BUILD_SHARED_LIBS "" OFF)
+       add_subdirectory(fdk-aac EXCLUDE_FROM_ALL)
+    @@ -38,7 +38,7 @@ if( BRCM_GLES_V2 AND BRCM_EGL AND OPENMAXIL AND BCM_HOST AND VCOS AND VCHIQ_ARM
+    
+       set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAVE_LIBOPENMAX=2 -DOMX -DOMX_SKIP64BIT -ftree-vectorize -pipe -DUSE_EXTERNAL_OMX   -DHAVE_LIBBCM_HOST -DUSE_EXTERNAL_LIBBCM_HOST -DUSE_VCHIQ_ARM -Wno-psabi" )
+    
+    -  aux_source_directory( ${CMAKE_SYSROOT}/opt/vc/src/hello_pi/libs/ilclient/ ilclient_src )
+    +  aux_source_directory( ${CMAKE_SYSROOT}/usr/src/hello_pi/libs/ilclient/ ilclient_src )
+       set( DIR_SRCS ${ilclient_src} )
+       add_library( ilclient STATIC ${DIR_SRCS} )
+    ```
+13. Create another file in the main dir of the rpi-play called `avahi_0.8.bbappend` and add the following content to it :
+
+    ```bash
+        PACKAGECONFIG += "libdns_sd"
+
+        do_install:append(){
+        install -m 0664 ${WORKDIR}/${PN}-${PV}/avahi-compat-libdns_sd/* ${D}/${includedir}/
+        }
+    ```
+
+14. Last step go to the file `userland_git.bb` and add this line @ the end of the file (You can search for it but it's usually in `poky/meta-raspberrypi/recipes-graphics/userland/userland_git.bb`) :
+    - ```bash
+        SYSROOT_DIRS:append=" ${prefix}/src"
+      ```
 
 
 
