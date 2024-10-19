@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.conf": "bitbake",
+        "*.inc": "bitbake",
+        "ostream": "cpp"
+    },
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/sources/poky/bitbake/lib",
+        "${workspaceFolder}/sources/poky/meta/lib"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/sources/poky/bitbake/lib",
+        "${workspaceFolder}/sources/poky/meta/lib"
+    ],
+    "cmake.sourceDirectory": "/home/wagdy/Desktop/Embedded_linux_guide/Embedded_Linux_Guide/4-CPP_module/Intermediate_course"
+}
