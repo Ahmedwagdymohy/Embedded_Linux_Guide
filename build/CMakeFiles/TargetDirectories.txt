@@ -1,3 +1,0 @@
-/home/wagdy/Desktop/Embedded_linux_guide/Embedded_Linux_Guide/build/CMakeFiles/helloworld.dir
-/home/wagdy/Desktop/Embedded_linux_guide/Embedded_Linux_Guide/build/CMakeFiles/edit_cache.dir
-/home/wagdy/Desktop/Embedded_linux_guide/Embedded_Linux_Guide/build/CMakeFiles/rebuild_cache.dir
