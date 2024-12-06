@@ -4,7 +4,10 @@
 #include <algorithm>
 #include <iterator>
 #include <numeric>
+#include <functional>
 
+
+#include <filesystem>
 
 // Implementing the unique pointer in cpp
 
@@ -111,3 +114,12 @@ class Unique_Pointer {
 
 
 };
+
+
+
+int main(){
+    std::filesystem path 
+
+
+
+}
